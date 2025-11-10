@@ -1,0 +1,723 @@
+/* Plain, minimal hero styles */
+:root {
+  --hp-bg-start: #422f33;
+  --hp-bg-end: #000000;
+  --hp-text: #e2e8f0;
+  --hp-muted: #94a3b8;
+  --hp-accent: #22d3ee;
+  --hp-card-bg: rgba(255, 255, 255, 0.03);
+  --hp-card-border: rgba(148, 163, 184, 0.16);
+  /* Optional hero backdrop texture (set to 'none' to disable) */
+  --hp-bg-texture: url("../assets/HomeTheme.png");
+  /* Jupiter palette */
+  --jup-cream: #efe5d4;
+  --jup-ivory: #f6eee0;
+  --jup-blue: #582828;
+  --jup-tan: #35030f;
+  --jup-ochre: #631212;
+  --jup-brown: #7b4a2f;
+  --jup-spot: #d27c3c;
+  /* Nebula colors (theme-aware) */
+  --nebula-1: rgba(158, 16, 30, 0.35);   /* blue */
+  --nebula-2: rgba(227, 52, 69, 0.28);   /* violet */
+  --nebula-3: rgba(34,197,94,0.14);    /* soft green */
+}
+
+/* Make the space gradient cover the full page behind the fixed navbar */
+html, body { min-height: 100%; }
+body {
+  background:
+    linear-gradient(180deg, var(--bhu-bg-top, #050817), var(--bhu-bg-bottom, #02030c)),
+    var(--home-ultra-bg-texture, none);
+  background-size: auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: soft-light;
+}
+
+/* Theme overrides from Navbar’s data-theme */
+html[data-theme="solar"] {
+  --nebula-1: rgba(249,115,22,0.38);   /* orange */
+  --nebula-2: rgba(236,72,153,0.26);   /* pink */
+  --nebula-3: rgba(253,224,71,0.14);   /* warm yellow */
+}
+html[data-theme="lunar"] {
+  --nebula-1: rgba(148,163,184,0.28);  /* slate */
+  --nebula-2: rgba(59,130,246,0.24);   /* blue */
+  --nebula-3: rgba(203,213,225,0.14);  /* light slate */
+}
+html[data-theme="blackhole"] {
+  --nebula-1: rgba(168,85,247,0.42);   /* violet */
+  --nebula-2: rgba(34,211,238,0.28);   /* cyan */
+  --nebula-3: rgba(99,102,241,0.14);   /* indigo */
+}
+
+.home-plain {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  padding: 96px 16px;
+  box-sizing: border-box;
+  /* Layer gradient over optional texture for subtle galaxy feel */
+  background:
+    linear-gradient(180deg, var(--hp-bg-start), var(--hp-bg-end)),
+    var(--hp-bg-texture);
+  background-size: auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: soft-light;
+  color: var(--hp-text);
+}
+
+.home-plain__inner {
+  width: min(980px, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* two-column layout with planet */
+.home-plain__grid {
+  width: min(1100px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: 32px;
+}
+
+/* single-column layout when planet visuals are removed */
+.home-plain__grid--single {
+  grid-template-columns: 1fr;
+}
+
+@media (max-width: 960px) {
+  .home-plain__grid { grid-template-columns: 1fr; }
+  .home-plain__inner { text-align: center; }
+}
+
+@media (min-width: 961px) {
+  .home-plain__inner { text-align: left; }
+}
+
+.home-plain__pill {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  border-radius: 999px;
+  border: 1px solid var(--hp-card-border);
+  background: var(--hp-card-bg);
+  color: var(--hp-muted);
+  margin-bottom: 14px;
+}
+
+.home-plain__title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 6px 0 10px;
+}
+
+.home-plain__lead {
+  color: var(--hp-muted);
+  font-size: 16px;
+  margin: 0 0 20px;
+}
+
+.home-plain__actions {
+  display: inline-flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.hp-btn {
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.hp-btn--primary {
+  background: var(--hp-accent);
+  color: #06131a;
+  box-shadow: 0 10px 22px rgba(34, 211, 238, 0.18);
+}
+.hp-btn--primary:hover { transform: translateY(-1px); }
+
+.hp-btn--ghost {
+  background: transparent;
+  border-color: var(--hp-card-border);
+  color: var(--hp-text);
+}
+.hp-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
+}
+
+.home-plain__meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.home-plain__card {
+  min-width: 220px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--hp-card-bg);
+  border: 1px solid var(--hp-card-border);
+  text-align: left;
+}
+
+.home-plain__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--hp-muted);
+  margin-bottom: 4px;
+}
+
+.home-plain__value {
+  font-size: 14px;
+  color: var(--hp-text);
+}
+
+@media (max-width: 640px) {
+  .home-plain { padding: 80px 14px; }
+  .home-plain__card { width: 100%; }
+}
+
+/* Jupiter — CSS-only planet */
+.home-plain__planet {
+  display: grid;
+  place-items: center;
+  position: relative; /* for nebula */
+  perspective: 800px; /* give rings 3D depth */
+}
+
+/* Nebula behind Jupiter */
+.jupiter-nebula {
+  position: absolute;
+  inset: -16% -18% -14% -18%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 68% 18%, var(--nebula-1) 0%, rgba(0,0,0,0) 58%),
+    radial-gradient(circle at 20% 82%, var(--nebula-2) 0%, rgba(0,0,0,0) 60%),
+    radial-gradient(circle at 50% 50%, var(--nebula-3) 0%, rgba(0,0,0,0) 70%);
+  filter: blur(70px);
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  animation: nebula-drift 36s ease-in-out infinite alternate;
+}
+
+@keyframes nebula-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-12px, 8px) scale(1.04); }
+  100% { transform: translate(8px, -10px) scale(1.02); }
+}
+
+.jupiter {
+  position: relative;
+  width: clamp(220px, 34vw, 400px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    /* highlight */
+    radial-gradient(circle at 32% 24%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0) 46%),
+    /* interior shade */
+    radial-gradient(circle at 70% 70%, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 55%),
+    /* banded clouds */
+    linear-gradient(100deg,
+      var(--jup-ivory) 0%,
+      var(--jup-ivory) 6%,
+      var(--jup-brown) 10%,
+      var(--jup-brown) 13%,
+      var(--jup-blue) 18%,
+      var(--jup-blue) 24%,
+      var(--jup-cream) 28%,
+      var(--jup-tan) 34%,
+      var(--jup-blue) 40%,
+      var(--jup-ochre) 48%,
+      var(--jup-cream) 56%,
+      var(--jup-brown) 64%,
+      var(--jup-blue) 72%,
+      var(--jup-ivory) 80%,
+      var(--jup-ochre) 88%,
+      var(--jup-ivory) 100%);
+  background-size: 260% 100%;
+  animation:
+    jupiter-bands 18s linear infinite,
+    jupiter-float 7s ease-in-out infinite alternate; /* stronger + float */
+  box-shadow:
+    inset 22px -20px 40px rgba(0,0,0,0.35),
+    inset -18px 18px 32px rgba(255,220,170,0.25),
+    0 0 140px rgba(34,211,238,0.08);
+  filter: saturate(1.05) contrast(1.04) brightness(0.98);
+  z-index: 1; /* above nebula */
+}
+
+@keyframes jupiter-bands {
+  0%   { background-position: 50% 0, 50% 0, 0% 0; }
+  100% { background-position: 50% 0, 50% 0, 220% 0; }
+}
+
+@keyframes jupiter-float {
+  0%   { transform: translateY(0) rotate(-1.6deg); }
+  100% { transform: translateY(-8px) rotate(-3deg); }
+}
+
+/* Great Red Spot */
+.jupiter__spot {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  width: 64px;
+  height: 44px;
+  transform: translate(-18%, -50%) rotate(-6deg);
+  border-radius: 50% / 60% 60% 40% 40%;
+  background:
+    radial-gradient(ellipse at 40% 50%,
+      color-mix(in oklab, var(--jup-spot) 88%, #f7caa0 12%) 0%,
+      color-mix(in oklab, var(--jup-spot) 40%, transparent) 58%,
+      transparent 78%);
+  mix-blend-mode: overlay;
+  filter: blur(0.6px);
+}
+
+/* Rim shading (terminator) */
+.jupiter__terminator {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 78% 68%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.35) 88%);
+  pointer-events: none;
+}
+
+/* Sheen sweep */
+.jupiter__sheen {
+  position: absolute;
+  inset: -4%;
+  border-radius: 50%;
+  background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 14%, rgba(255,255,255,0) 28%);
+  background-size: 220% 100%;
+  background-position: -120% 0;
+  mix-blend-mode: screen;
+  animation: sheen-sweep 8.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes sheen-sweep { to { background-position: 120% 0; } }
+
+/* Polar auroras */
+.jupiter__aurora {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 62%;
+  height: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(34,211,238,0.55), transparent 70%);
+  filter: blur(10px) saturate(1.2);
+  mix-blend-mode: screen;
+  animation: aurora-flicker 3.2s ease-in-out infinite alternate;
+  z-index: 2;
+  pointer-events: none;
+}
+.jupiter__aurora--north { top: -3%; }
+.jupiter__aurora--south { bottom: -3%; transform: translateX(-50%) rotate(180deg); }
+@keyframes aurora-flicker { 0%{ opacity: .32 } 100%{ opacity: .75 } }
+
+/* Orbit rings with spark-like dashes */
+.jupiter-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(300px, 45vw, 560px);
+  height: clamp(300px, 45vw, 560px);
+  transform: translate(-50%, -50%) rotateX(66deg) rotateZ(-10deg);
+  border-radius: 50%;
+  border: 1px dashed rgba(148,163,184,0.25);
+  box-shadow: inset 0 0 40px rgba(34,211,238,0.08);
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.35));
+  animation: orbit-spin 16s linear infinite;
+  z-index: 1; /* sits between nebula and planet */
+}
+.jupiter-orbit--inner {
+  width: clamp(260px, 38vw, 500px);
+  height: clamp(260px, 38vw, 500px);
+  animation-duration: 10s; /* faster inner ring */
+  opacity: .8;
+}
+@keyframes orbit-spin { to { transform: translate(-50%, -50%) rotateX(66deg) rotateZ(350deg); } }
+
+/* Ambient particle field around Jupiter */
+.jupiter-particles {
+  position: absolute;
+  inset: -8% -10% -8% -10%;
+  z-index: 1; /* behind planet */
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.65) 1.4px, transparent 1.4px),
+    radial-gradient(circle, rgba(148,163,184,0.35) 1.2px, transparent 1.2px),
+    radial-gradient(circle, rgba(34,211,238,0.45) 1.2px, transparent 1.2px);
+  background-size: 160px 120px, 220px 180px, 260px 220px;
+  background-position: 0 0, 30px 20px, 60px 40px;
+  animation: particles-orbit 24s linear infinite;
+  mix-blend-mode: screen;
+  opacity: .45;
+}
+@keyframes particles-orbit {
+  0%   { transform: rotate(0deg) translateZ(0); }
+  100% { transform: rotate(360deg) translateZ(0); }
+}
+
+.jupiter-particles--near {
+  inset: -4% -6% -4% -6%;
+  background-size: 120px 100px, 160px 140px, 180px 160px;
+  animation: particles-orbit-fast 12s linear infinite;
+  opacity: .55;
+}
+@keyframes particles-orbit-fast {
+  to { transform: rotate(-360deg) translateZ(0); }
+}
+
+/* Sweeping micro-meteors */
+.jupiter-shoot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(280px, 42vw, 540px);
+  height: 2px;
+  transform: translate(-50%, -50%) rotate(-12deg);
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.9) 45%, rgba(34,211,238,0.5) 60%, rgba(255,255,255,0));
+  background-size: 180% 100%;
+  background-position: -80% 0;
+  filter: blur(0.6px) drop-shadow(0 0 12px rgba(255,255,255,0.35));
+  opacity: .0;
+  animation: shoot-sweep 5.5s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+.jupiter-shoot--delay { transform: translate(-50%, -50%) rotate(8deg); animation-delay: 2.2s; opacity: .0; }
+@keyframes shoot-sweep {
+  0%   { background-position: -80% 0; opacity: 0; }
+  12%  { opacity: .55; }
+  80%  { opacity: .3; }
+  100% { background-position: 180% 0; opacity: 0; }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .jupiter { animation: jupiter-bands 30s linear infinite; }
+  .jupiter-orbit, .jupiter-particles, .jupiter-particles--near, .jupiter-shoot, .jupiter-shoot--delay, .jupiter__sheen, .jupiter__aurora, .jupiter-nebula {
+    animation: none !important;
+  }
+}
+/* Spline scene container */
+.home-plain__spline {
+  position: relative;
+  width: 100%;
+  height: clamp(320px, 54vh, 620px);
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.04), rgba(0,0,0,0) 60%);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(148,163,184,0.12);
+}
+.home-plain__spline > * { /* Spline viewer */
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* skeleton while Spline chunk loads */
+.home-plain__spline--skeleton {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(148,163,184,0.12), rgba(148,163,184,0.06), rgba(148,163,184,0.12));
+  background-size: 200% 100%;
+  animation: hp-skeleton 1.2s ease-in-out infinite;
+}
+@keyframes hp-skeleton { to { background-position: -200% 0; } }
+@media (max-width: 640px) {
+  .home-plain__spline { height: clamp(260px, 44vh, 480px); border-radius: 14px; margin-top: 10px; }
+}
+
+/* --- Overlay to cover Spline watermark area and add a fun road scene --- */
+.spline-cover {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: min(40%, 280px);
+  height: min(38%, 200px);
+  pointer-events: none; /* do not block Spline */
+}
+/* Tweak these variables if angle/size needs tuning */
+.spline-cover { 
+  --wm-rot: 0deg;             /* rotation of the blur pill */
+  --wm-offset-x: 12px;        /* offset from right */
+  --wm-offset-y: 12px;        /* offset from bottom */
+  --wm-w: 180px;              /* pill width (tune to watermark) */
+  --wm-h: 48px;               /* pill height */
+  /* tweak vars that JS can gently nudge without overriding your CSS */
+  --wm-tweak-x: 0px;
+  --wm-tweak-y: 0px;
+  --wm-tweak-rot: 0deg;
+}
+
+.spline-cover__mask {
+  position: absolute;
+  right: calc(var(--wm-offset-x) + var(--wm-tweak-x));
+  bottom: calc(var(--wm-offset-y) + var(--wm-tweak-y));
+  width: var(--wm-w);
+  height: var(--wm-h);
+  background: rgba(24, 29, 33, 0.55); /* translucent so backdrop-filter blurs Spline */
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 0 0 1px rgba(148,163,184,0.08),
+    0 -2px 10px rgba(0,0,0,0.45);
+  transform: rotate(calc(var(--wm-rot) + var(--wm-tweak-rot)));
+  opacity: 0.92;
+  z-index: 10;
+}
+
+.spline-road {
+  position: absolute;
+  right: calc(var(--wm-offset-x) + var(--wm-tweak-x) + 8px);
+  bottom: calc(var(--wm-offset-y) + var(--wm-tweak-y) + 10px);
+  width: calc(var(--wm-w) - 20px);
+  height: 64px;
+  transform: rotate(calc(var(--wm-rot) + var(--wm-tweak-rot) - 2deg));
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.6), rgba(0,0,0,0.2)),
+    linear-gradient(180deg, #1b1c1f, #0f1012);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: inset 0 -12px 20px rgba(0,0,0,0.55), inset 0 10px 20px rgba(255,255,255,0.04);
+  display: none; /* keep code but hide road for a clean watermark blur */
+}
+.spline-road::after{ /* dashed center line */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(50% - 2px);
+  width: 100%;
+  height: 4px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.0) 0 14px, rgba(255,255,255,0.75) 14px 22px, rgba(255,255,255,0.0) 22px 42px);
+  filter: drop-shadow(0 0 4px rgba(255,255,255,0.25));
+  animation: road-dash 900ms linear infinite;
+}
+@keyframes road-dash { to { transform: translateX(-42px); } }
+
+.bike {
+  position: absolute;
+  bottom: 10px;
+  width: 22px;
+  height: 10px;
+  border-radius: 6px 10px 6px 8px;
+  background: linear-gradient(90deg, #ff4d4d, #ffb347);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5), 0 0 10px rgba(255,77,77,0.4);
+  transform: translateX(110%);
+  animation: bike-run 4.5s linear infinite;
+}
+.bike::before{ /* headlight */
+  content: "";
+  position: absolute;
+  right: -4px;
+  top: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,200,0.95), rgba(255,255,200,0.2) 60%, transparent 70%);
+  filter: blur(0.4px) drop-shadow(0 0 8px rgba(255,255,200,0.6));
+}
+.bike::after{ /* tail glow */
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: 4px;
+  width: 5px;
+  height: 4px;
+  border-radius: 2px;
+  background: radial-gradient(circle, rgba(255,60,60,0.9), rgba(255,60,60,0.2) 60%, transparent 70%);
+}
+.bike--1{ bottom: 12px; animation-duration: 4.8s; }
+.bike--2{ bottom: 24px; animation-duration: 4.2s; animation-delay: 0.8s; background: linear-gradient(90deg, #60a5fa, #a78bfa); box-shadow: 0 2px 6px rgba(0,0,0,0.5), 0 0 10px rgba(96,165,250,0.35); }
+.bike--3{ bottom: 36px; animation-duration: 5.4s; animation-delay: 1.6s; background: linear-gradient(90deg, #34d399, #22d3ee); box-shadow: 0 2px 6px rgba(0,0,0,0.5), 0 0 10px rgba(52,211,153,0.35); }
+
+@keyframes bike-run {
+  0%   { transform: translateX(110%); }
+  100% { transform: translateX(-20%); }
+}
+
+@media (max-width: 960px){
+  .spline-cover{ width: 48%; height: 34%; }
+  .spline-cover { --wm-w: 200px; --wm-h: 100px; }
+}
+@media (max-width: 640px){
+  .spline-cover{ display: none; } /* give more room on very small screens */
+}
+
+/* Glass chip label to show project context over the blurred mask */
+.spline-chip{
+  position: absolute;
+  right: calc(var(--wm-offset-x) + var(--wm-tweak-x) + 20px);
+  bottom: calc(var(--wm-offset-y) + var(--wm-tweak-y) + 12px);
+  transform: rotate(calc(var(--wm-rot) + var(--wm-tweak-rot)));
+  padding: 6px 10px;
+  font-size: 11px;
+  line-height: 1;
+  color: rgba(248,250,252,0.9);
+  background: rgba(255,255,255,0.06);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  backdrop-filter: blur(8px) saturate(1.1);
+  border: 1px solid rgba(148,163,184,0.2);
+  border-radius: 999px;
+  z-index: 12;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.32), inset 0 0 1px rgba(255,255,255,0.25);
+}
+
+/* Disable/Remove the experimental overlay completely */
+.spline-cover,
+.spline-cover__mask,
+.spline-chip,
+.spline-road,
+.bike { display: none !important; }
+
+/* ========================= ULTRA HERO (scoped) ========================= */
+/* Base backdrop tokens for gradient + star color */
+:root { --bhu-bg-top:#050817; --bhu-bg-bottom:#02030c; --bhu-star:#b9e1ff; --bhu-star-soft:#6aa0ff; }
+/* Optional texture for Ultra (set to none to disable) */
+:root { --home-ultra-bg-texture: url("../assets/HomeTheme.png"); }
+
+.home-ultra { position: relative; min-height: clamp(640px, calc(100dvh - var(--bhu-nav-h, 70px)), 1200px); overflow: clip; isolation: isolate;
+  background:
+    linear-gradient(180deg, var(--bhu-bg-top), var(--bhu-bg-bottom)),
+    var(--home-ultra-bg-texture);
+  background-size: auto, cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: soft-light;
+}
+
+.home-ultra__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: -2; }
+
+/* Drifting nebula using layered conic/radial gradients */
+.home-ultra__nebula { position: absolute; inset: -20%; z-index: -1; filter: blur(40px) saturate(120%); opacity: 0.9; transform: translate3d(calc(var(--px, 0) * 1px), calc(var(--py, 0) * 1px), 0) scale(1.1); transition: transform 200ms ease; background:
+  radial-gradient(60% 60% at 30% 35%, var(--nebula-1) 0%, transparent 60%),
+  radial-gradient(50% 50% at 70% 55%, var(--nebula-2) 0%, transparent 65%),
+  conic-gradient(from 180deg at 50% 50%, transparent 0 55%, rgba(255,255,255,0.06) 60% 62%, transparent 70% 100%);
+}
+
+/* Planetary rings accent */
+.home-ultra__rings { pointer-events: none; position: absolute; right: -200px; top: 20%; width: 680px; aspect-ratio: 1/0.28; opacity: 0.22; background:
+  radial-gradient(60% 35% at 50% 50%, rgba(255,255,255,0.35) 0 30%, transparent 40%),
+  radial-gradient(60% 35% at 52% 52%, rgba(255,255,255,0.18) 0 35%, transparent 45%);
+  filter: blur(2px) drop-shadow(0 0 30px rgba(255,255,255,0.15));
+  transform: rotate(-12deg);
+}
+
+.home-ultra__inner { position: relative; margin: 0 auto; max-width: 1120px; padding: clamp(72px, 8vw, 120px) 20px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; }
+
+.home-ultra__left { color: var(--hp-text); text-shadow: 0 0 24px rgba(124, 199, 255, 0.18); }
+.home-ultra .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; font-size: 12.5px; letter-spacing: 0.2px; background: color-mix(in oklab, var(--hp-accent) 18%, transparent); color: color-mix(in oklab, var(--hp-accent) 84%, white); border: 1px solid color-mix(in oklab, var(--hp-accent) 38%, transparent); box-shadow: 0 6px 20px -8px var(--hp-accent); backdrop-filter: blur(6px); }
+.home-ultra .title { margin: 14px 0 10px; font-weight: 800; line-height: 1.07; font-size: clamp(28px, 4.4vw, 64px); letter-spacing: -0.02em; color: #fff; }
+.home-ultra .title__accent {
+  position: relative;
+  color: var(--hp-accent);
+  text-shadow:
+    0 0 6px color-mix(in oklab, var(--hp-accent) 45%, transparent),
+    0 0 22px color-mix(in oklab, var(--hp-accent) 18%, transparent);
+  animation: accent-glow 7.2s ease-in-out infinite alternate;
+  filter: saturate(97%);
+}
+
+@keyframes accent-glow {
+  0% {
+    text-shadow:
+      0 0 8px color-mix(in oklab, var(--hp-accent) 32%, transparent),
+      0 0 18px color-mix(in oklab, var(--hp-accent) 12%, transparent);
+    opacity: 0.92;
+  }
+  100% {
+    text-shadow:
+      0 0 16px color-mix(in oklab, var(--hp-accent) 50%, transparent),
+      0 0 34px color-mix(in oklab, var(--hp-accent) 28%, transparent);
+    opacity: 1;
+  }
+}
+
+/* Subtle hover lift and variable weight pulse (if supported) */
+.home-ultra .title{ transform: translateZ(0); will-change: transform; }
+.home-ultra:hover .title{ transition: transform 400ms ease; transform: translateY(-1px); }
+
+@supports (font-variation-settings: "wght" 700) {
+  .home-ultra .title{ font-variation-settings: "wght" 780; }
+  .home-ultra .title__accent{ animation: weightPulse 7s ease-in-out infinite; }
+}
+
+@keyframes weightPulse{
+  0%,100%{ font-variation-settings: "wght" 780; letter-spacing:-0.02em; }
+  50%{ font-variation-settings: "wght" 860; letter-spacing:-0.018em; }
+}
+.home-ultra .lede { color: var(--hp-muted); font-size: clamp(14px, 1.6vw, 18px); }
+
+.home-ultra .cta { display: flex; gap: 12px; margin: 18px 0 10px; }
+.home-ultra .btn { position: relative; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--hp-card-border); background: linear-gradient(180deg, color-mix(in oklab, var(--hp-card-bg) 70%, transparent), transparent); color: var(--hp-text); font-weight: 600; cursor: pointer; transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease; backdrop-filter: blur(6px); }
+.home-ultra .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 40px -20px var(--hp-accent); }
+.home-ultra .btn:active { transform: translateY(0); }
+.home-ultra .btn--primary { background: linear-gradient(180deg, color-mix(in oklab, var(--hp-accent) 18%, transparent), transparent); border-color: color-mix(in oklab, var(--hp-accent) 55%, var(--hp-card-border)); }
+.home-ultra .btn--ghost { background: color-mix(in oklab, var(--hp-card-bg) 70%, transparent); }
+
+.home-ultra .chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0 8px; }
+.home-ultra .chip { --x: color-mix(in oklab, var(--hp-accent) 22%, transparent); display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; font-size: 12.5px; border: 1px solid color-mix(in oklab, var(--hp-accent) 45%, var(--hp-card-border)); background: linear-gradient(180deg, var(--x), transparent); color: var(--hp-text); backdrop-filter: blur(6px); }
+.home-ultra .chip .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--hp-accent); box-shadow: 0 0 8px var(--hp-accent); }
+
+.home-ultra .meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; padding: 0; }
+.home-ultra .meta .card { list-style: none; padding: 12px; border-radius: 14px; background: color-mix(in oklab, var(--hp-card-bg) 82%, transparent); border: 1px solid var(--hp-card-border); box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 10px 30px -24px rgba(124,199,255,0.2); }
+.home-ultra .meta .k { font-size: 12px; color: var(--hp-muted); }
+.home-ultra .meta .v { font-weight: 600; color: var(--hp-text); }
+
+.home-ultra__right { min-height: clamp(320px, 48vh, 560px); display: grid; place-items: center; }
+.home-ultra .spline { width: min(640px, 92%); height: clamp(320px, 56vh, 620px); border-radius: 22px; background: color-mix(in oklab, var(--hp-card-bg) 70%, transparent); border: 1px solid var(--hp-card-border); position: relative; overflow: hidden; box-shadow: 0 30px 120px -60px rgba(124,199,255,0.28); }
+.home-ultra .skeleton { position: absolute; inset: 0; background: linear-gradient(110deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.02) 40%); background-size: 200% 100%; animation: shimmer 2.2s linear infinite; }
+.home-ultra .spline > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+@keyframes shimmer { to { background-position: -200% 0; } }
+
+/* Optional glow ping on theme change */
+.home-ultra.is-theme-ping .home-ultra__rings { filter: blur(2px) drop-shadow(0 0 40px rgba(124,199,255,0.32)); }
+
+/* Responsive */
+@media (max-width: 960px) {
+  .home-ultra__inner { grid-template-columns: 1fr; gap: 22px; padding-top: 92px; }
+  .home-ultra__right { order: -1; min-height: auto; }
+  .home-ultra .spline { width: 100%; max-width: 560px; height: clamp(260px, 48vh, 460px); }
+}
+
+@media (max-width: 720px) {
+  .home-ultra .title { font-size: clamp(26px, 9vw, 36px); }
+  .home-ultra .meta { grid-template-columns: 1fr; }
+}
+
+/* Theme-aware tokens mapping to existing palette */
+html[data-theme="solar"] .home-ultra__nebula { filter: blur(40px) saturate(125%); }
+html[data-theme="lunar"] .home-ultra__nebula { filter: blur(40px) saturate(120%); }
+html[data-theme="blackhole"] .home-ultra__nebula { filter: blur(42px) saturate(120%); opacity: .85; }
+
+/* Reduced motion: freeze shimmer */
+@media (prefers-reduced-motion: reduce) {
+  .home-ultra .skeleton { animation: none !important; }
+}

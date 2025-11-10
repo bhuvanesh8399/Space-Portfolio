@@ -1,0 +1,108 @@
+:root{
+  --planet-radius-jupiter: 150px;
+  --moon-radius-io: 20px;
+  --moon-radius-europa: 18px;
+  --moon-radius-ganymede: 25px;
+  --moon-radius-callisto: 22px;
+
+  --moon-trajectory-io: 250px;
+  --moon-trajectory-europa: 310px;
+  --moon-trajectory-ganymede: 380px;
+  --moon-trajectory-callisto: 450px;
+
+  --system-border-width: min(2px, 0.4dvmin);
+}
+
+.solar-system{
+  position: relative;
+  min-height: 80vh;
+  display:grid;
+  place-items:center;
+  background: radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05), rgba(0,0,0,0.9));
+  filter: saturate(1.1) brightness(1.05);
+  overflow:hidden;
+}
+
+.solar-system__jupiter{
+  position: relative;
+  z-index: 100;
+  aspect-ratio: 1;
+  inline-size: var(--planet-radius-jupiter);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 40%, #f5deb3 5%, #c57f38 20%, #6f4e37 40%, #2b2b2b 90%);
+  box-shadow:
+    inset 20px 0 60px rgba(0,0,0,0.4),
+    0 0 80px rgba(255, 180, 100, 0.3),
+    0 0 160px rgba(255, 180, 100, 0.1);
+  filter: brightness(0.95) contrast(1.1);
+  animation: jupiter-rotate 30s linear infinite;
+}
+.solar-system__jupiter::after{
+  content:"";
+  position:absolute;
+  inset:-80px;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(255,215,160,0.08), transparent 70%);
+  animation: halo-pulse 6s ease-in-out infinite;
+}
+@keyframes halo-pulse { 0%,100%{ opacity:.3; transform:scale(1)} 50%{ opacity:.7; transform:scale(1.1)} }
+@keyframes jupiter-rotate { 0%{ background-position:0 0 } 100%{ background-position:300% 0 } }
+
+/* base trajectory */
+.solar-system__io-trajectory,
+.solar-system__europa-trajectory,
+.solar-system__ganymede-trajectory,
+.solar-system__callisto-trajectory{
+  --r: 300px;
+  position:absolute;
+  width: var(--r);
+  height: var(--r);
+  border: var(--system-border-width) solid rgba(255,255,255,0.08);
+  border-radius:50%;
+  top:50%; left:50%; transform: translate(-50%,-50%);
+  pointer-events:none;
+}
+
+/* place moon on edge of trajectory and spin the track */
+.solar-system__io-trajectory__io,
+.solar-system__europa-trajectory__europa,
+.solar-system__ganymede-trajectory__ganymede,
+.solar-system__callisto-trajectory__callisto{
+  position:absolute;
+  top:50%; left:50%;
+  transform: translate(-50%,-50%) translateX(calc(var(--r)/2));
+  border-radius:50%;
+}
+
+/* Io */
+.solar-system__io-trajectory{ --r: var(--moon-trajectory-io); animation: revolution 5s linear infinite; }
+.solar-system__io-trajectory__io{
+  width: var(--moon-radius-io); height: var(--moon-radius-io);
+  background: radial-gradient(circle, #fff 0%, #cbd5e1 40%, #64748b 80%);
+}
+
+/* Europa */
+.solar-system__europa-trajectory{ --r: var(--moon-trajectory-europa); animation: revolution 8s linear infinite; }
+.solar-system__europa-trajectory__europa{
+  width: var(--moon-radius-europa); height: var(--moon-radius-europa);
+  background: radial-gradient(circle, #eef2ff 0%, #c7d2fe 40%, #94a3b8 80%);
+}
+
+/* Ganymede */
+.solar-system__ganymede-trajectory{ --r: var(--moon-trajectory-ganymede); animation: revolution 12s linear infinite; }
+.solar-system__ganymede-trajectory__ganymede{
+  width: var(--moon-radius-ganymede); height: var(--moon-radius-ganymede);
+  background: radial-gradient(circle, #f8fafc 0%, #e2e8f0 40%, #94a3b8 80%);
+}
+
+/* Callisto */
+.solar-system__callisto-trajectory{ --r: var(--moon-trajectory-callisto); animation: revolution 16s linear infinite; }
+.solar-system__callisto-trajectory__callisto{
+  width: var(--moon-radius-callisto); height: var(--moon-radius-callisto);
+  background: radial-gradient(circle, #f1f5f9 0%, #cbd5e1 40%, #64748b 80%);
+}
+
+@keyframes revolution {
+  to { transform: translate(-50%,-50%) rotate(360deg) }
+}
+
