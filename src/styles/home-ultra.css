@@ -23,17 +23,17 @@ body { font-family: var(--font-body); }
 .home-ultra__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: -3; pointer-events: none; }
 
 /* Drifting nebula using layered conic/radial gradients */
-.home-ultra__nebula { position: absolute; inset: -20%; z-index: -2; filter: blur(40px) saturate(120%); opacity: 0.9; transform: translate3d(calc(var(--px, 0) * 1px), calc(var(--py, 0) * 1px), 0) scale(1.1); transition: transform 200ms ease; background:
+.home-ultra__nebula { position: absolute; inset: -20%; z-index: -2; filter: blur(32px) saturate(110%); opacity: 0.75; transform: translate3d(calc(var(--px, 0) * 1px), calc(var(--py, 0) * 1px), 0) scale(1.08); transition: transform 200ms ease; background:
   radial-gradient(60% 60% at 30% 35%, var(--nebula-a) 0%, transparent 60%),
   radial-gradient(50% 50% at 70% 55%, var(--nebula-b) 0%, transparent 65%),
   conic-gradient(from 180deg at 50% 50%, transparent 0 55%, var(--nebula-ring) 60% 62%, transparent 70% 100%);
 }
 
 /* Planetary rings accent */
-.home-ultra__rings { pointer-events: none; position: absolute; right: -200px; top: 20%; width: min(680px, 55vw); aspect-ratio: 1/0.28; opacity: 0.22; background:
+.home-ultra__rings { pointer-events: none; position: absolute; right: -200px; top: 20%; width: min(680px, 55vw); aspect-ratio: 1/0.28; opacity: 0.16; background:
   radial-gradient(60% 35% at 50% 50%, var(--ring) 0 30%, transparent 40%),
   radial-gradient(60% 35% at 52% 52%, var(--ring-soft) 0 35%, transparent 45%);
-  filter: blur(2px) drop-shadow(0 0 30px var(--ring-glow));
+  filter: blur(1.2px) drop-shadow(0 0 24px var(--ring-glow));
   transform: rotate(-12deg);
 }
 
@@ -41,17 +41,12 @@ body { font-family: var(--font-body); }
 
 .home-ultra__left { color: var(--fg); text-shadow: 0 0 24px var(--glow-soft); max-width: 680px; }
 .home-ultra .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; font-size: 12.5px; letter-spacing: 0.2px; background: color-mix(in oklab, var(--accent) 18%, transparent); color: color-mix(in oklab, var(--accent) 84%, white); border: 1px solid color-mix(in oklab, var(--accent) 38%, transparent); box-shadow: 0 6px 20px -8px var(--accent); backdrop-filter: blur(6px); }
-.home-ultra .title { margin: 14px 0 10px; font-weight: 800; line-height: 1.05; font-size: clamp(28px, 4.2vw, 56px); letter-spacing: clamp(-0.5px,-0.2vw,-1px); color: var(--fg-strong); max-width: 16ch; hyphens: auto; font-family: var(--font-display); text-wrap: balance; font-variation-settings: "wght" 780; transform: translateZ(0); will-change: transform; }
+.home-ultra .title { margin: 14px 0 10px; font-weight: 800; line-height: 1.06; font-size: clamp(26px, 3.8vw, 54px); letter-spacing: -0.015em; color: var(--fg-strong); max-width: 20ch; hyphens: auto; font-family: var(--font-display); text-wrap: balance; font-variation-settings: "wght" 780; transform: translateZ(0); will-change: transform; }
 .home-ultra:hover .title { transition: transform 400ms ease; transform: translateY(-1px); }
 @property --pulse { syntax: "<number>"; initial-value: 0; inherits: true; }
-.home-ultra .title__accent { position: relative; display:inline-block; --pulse: 0; color: var(--accent); font-variation-settings: "wght" calc(740 + 80 * var(--pulse));
-  background: conic-gradient(from 180deg, var(--accent), color-mix(in oklab,var(--accent)30%,white), var(--accent));
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  text-shadow:
-    0 0 calc(6px + 8px * var(--pulse)) color-mix(in oklab,var(--accent) 50%,transparent),
-    0 0 calc(16px + 18px * var(--pulse)) color-mix(in oklab,var(--accent) 22%,transparent);
-  filter: saturate(1.05);
-  animation: title-pulse 7s ease-in-out infinite alternate, inkSpin 14s linear infinite; }
+.home-ultra .title__accent { position: relative; display:inline-block; color: var(--accent); text-shadow:
+  0 0 4px color-mix(in oklab, var(--accent) 38%, transparent),
+  0 0 14px color-mix(in oklab, var(--accent) 16%, transparent); animation: accent-glow 10s ease-in-out infinite alternate; filter: saturate(1); }
 .home-ultra .title__accent { transition: opacity .45s ease, transform .45s ease; }
 .home-ultra .title__accent:empty { opacity: .6; }
 .home-ultra .lede { color: var(--fg-dim); font-size: clamp(14px, 1.6vw, 18px); max-width: 40ch; }
@@ -152,7 +147,7 @@ body { font-family: var(--font-body); }
 @keyframes overlay-out { to { opacity:0; visibility:hidden; } }
 
 /* Spline tint overlay + fade-in */
-.home-ultra .spline { opacity: 0; transition: opacity .5s ease; }
+.home-ultra .spline { opacity: 0; transition: opacity .5s ease, box-shadow .25s ease, background-color .25s ease, border-color .25s ease, filter .25s ease; box-shadow: 0 18px 80px -48px var(--glow); border-radius: 20px; }
 .home-ultra .spline:has(canvas) { opacity: 1; }
 .home-ultra .spline::before { content:""; position:absolute; inset:0; background: radial-gradient(60% 60% at 50% 60%, color-mix(in oklab,var(--accent) 8%, transparent), transparent 60%); mix-blend-mode: screen; pointer-events:none; opacity:.8; }
 
@@ -218,3 +213,25 @@ html[data-theme="blackhole"] .home-ultra .spline { filter: hue-rotate(45deg) sat
   .home-ultra .spline { transform: none !important; }
   .home-ultra .title__accent, .home-ultra .title__accent * { animation: none !important; transition: none !important; }
 }
+
+/* Smooth theme/color transitions */
+.home-ultra, .home-ultra .pill, .home-ultra .chip, .home-ultra .card, .home-ultra .btn, .home-ultra .spline{
+  transition: color .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .25s ease, text-shadow .25s ease;
+}
+
+/* Slower, subtler accent glow */
+@keyframes accent-glow{
+  0% { filter: saturate(95%); opacity: .96; }
+  100%{ filter: saturate(105%); opacity: 1; }
+}
+
+/* Compact controls and layout overrides */
+.home-ultra .btn{ padding:10px 14px; border-radius:12px; }
+.home-ultra .btn:hover{ transform: translateY(-2px) scale(1.01); }
+.home-ultra .chips{ gap:8px; }
+.home-ultra .chip{ padding:7px 10px; font-size:12px; }
+.home-ultra .meta{ gap:10px; }
+.home-ultra .meta .card{ padding:10px 12px; border-radius:12px; }
+.home-ultra .meta .k{ font-size:11.5px; letter-spacing:.1px; }
+
+@media (max-width:960px){ .home-ultra .chips{ overflow-x:auto; padding-bottom:4px; } }

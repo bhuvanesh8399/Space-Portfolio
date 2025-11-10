@@ -1,0 +1,14 @@
+# Dependencies
+node_modules
+
+# Builds
+dist
+dist-ssr
+.vercel
+
+# Env and editor
+.env
+.env.*
+.DS_Store
+.vscode
+*.log

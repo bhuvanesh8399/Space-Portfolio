@@ -78,7 +78,7 @@ export default function HomeUltra() {
     let width = 0;
     let height = 0;
     let raf = 0;
-    let stars: { x: number; y: number; s: number; v: number; a: number }[] = [];
+  let stars: { x: number; y: number; s: number; v: number; a: number; t: number; w: number }[] = [];
 
     const init = () => {
       const dpr = window.devicePixelRatio || 1;
@@ -93,9 +93,11 @@ export default function HomeUltra() {
       stars = new Array(count).fill(0).map(() => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        s: Math.random() * 1.2 + 0.2,
-        v: Math.random() * 0.2 + 0.02,
-        a: Math.random() * 0.5 + 0.3,
+        s: Math.random() * 1.0 + 0.2,
+        v: Math.random() * 0.05 + 0.01,
+        a: Math.random() * 0.4 + 0.3,
+        t: Math.random() * Math.PI * 2,
+        w: 0.008 + Math.random() * 0.006,
       }));
     };
 
@@ -103,7 +105,9 @@ export default function HomeUltra() {
       ctx.clearRect(0, 0, width, height);
       ctx.globalCompositeOperation = "lighter";
       for (const st of stars) {
-        ctx.globalAlpha = st.a;
+        st.t += st.w;
+        const twinkle = 0.75 + Math.sin(st.t) * 0.25;
+        ctx.globalAlpha = twinkle * st.a;
         ctx.fillStyle = getComputedStyle(document.documentElement)
           .getPropertyValue("--bhu-star")
           .trim() || "#b9e1ff";
@@ -166,7 +170,7 @@ export default function HomeUltra() {
         <div className="home-ultra__left">
           <div className="pill">Bhuvanesh · Full‑Stack Java & React</div>
 
-          <p className="intro">Calm, stable, production‑ready — with a splash of cosmos.</p>
+          <p className="intro">Calm builds. Stellar results. Shipping fast without the drama.</p>
           <h1 className="title">I build <span className="title__accent" aria-live="polite">{WORDS[wi]}</span>, production‑ready web apps.</h1>
 
           <p className="lede">B.Tech IT · React · Vite · TypeScript · Spring Boot · Docker · REST · CI/CD</p>
