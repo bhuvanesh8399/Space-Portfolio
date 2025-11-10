@@ -1,5 +1,4 @@
-import React, { lazy, Suspense, useEffect, useRef } from "react";
-const Spline = lazy(() => import("@splinetool/react-spline"));
+import React, { useEffect, useRef } from "react";
 import "../styles/Home.css";
 
 const Home: React.FC = () => {
@@ -160,17 +159,10 @@ const Home: React.FC = () => {
           </ul>
         </div>
 
-        <div className="home-ultra__right" aria-hidden>
-          <div className="spline">
-            <Suspense fallback={<div className="skeleton" /> }>
-              <Spline scene="https://prod.spline.design/HHrEorsxJ793wPXn/scene.splinecode" />
-            </Suspense>
-          </div>
-        </div>
+        {/* Right visual (Spline) removed */}
       </div>
     </section>
   );
 };
 
 export default Home;
-

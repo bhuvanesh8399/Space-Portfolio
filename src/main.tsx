@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import "./styles/index.css";
 import "./styles/navbar.css"; // make sure this path exist
 import App from './App'
 

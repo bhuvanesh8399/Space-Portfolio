@@ -1,5 +1,5 @@
 :root {
-  --bhu-nav-h: 70px;
+  --bhu-nav-h: 56px;
   --bhu-text: #f8fafc;
   --bhu-muted: rgba(248, 250, 252, 0.6);
   --bhu-surface: rgba(1, 2, 10, 0.8);
@@ -94,8 +94,8 @@
 .bhu-nav__bg-glass {
   position: absolute;
   inset: 3px 3px 3px 3px;
-  background: radial-gradient(circle, rgba(248, 250, 252, 0.018), rgba(1, 2, 10, 0));
-  backdrop-filter: blur(22px);
+  background: color-mix(in oklab, var(--bhu-surface) 65%, transparent);
+  backdrop-filter: blur(8px) saturate(120%);
   border: 1px solid rgba(248, 250, 252, 0.012);
   border-radius: 26px;
   box-shadow:
@@ -441,9 +441,10 @@
   left: var(--bhu-indicator-left);
   width: var(--bhu-indicator-width);
   height: 2.1px;
-  background: rgba(248, 250, 252, 0.3);
+  background: rgba(248, 250, 252, 0.34);
   border-radius: 999px;
-  transition: left 0.2s ease, width 0.2s ease;
+  box-shadow: 0 0 8px rgba(248, 250, 252, 0.25);
+  transition: left 0.25s cubic-bezier(.2,.8,.2,1), width 0.25s cubic-bezier(.2,.8,.2,1), opacity .2s ease;
   pointer-events: none;
 }
 
@@ -451,9 +452,9 @@
   position: relative;
   color: var(--bhu-text);
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 13.5px;
   font-weight: 500;
-  padding: 0.45rem 0.4rem;
+  padding: 10px 12px;
   line-height: 1.1;
   opacity: 0.65;
   transition: opacity 0.15s ease;
@@ -479,6 +480,16 @@
 .bhu-nav__link.is-active .bhu-nav__link-glass {
   opacity: 1;
   transform: translateY(-1px);
+}
+
+/* Strong focus-visible rings for a11y */
+.bhu-nav__link:focus-visible,
+.bhu-nav__cta:focus-visible,
+.bhu-nav__icon-btn:focus-visible,
+.bhu-nav__burger:focus-visible {
+  outline: 2px solid rgba(248, 250, 252, 0.55);
+  outline-offset: 2px;
+  border-radius: 8px;
 }
 
 /* micro dot for active link */
@@ -652,8 +663,8 @@
   position: relative;
   background: rgba(248, 250, 252, 0.02);
   border: 1px solid rgba(248, 250, 252, 0.05);
-  border-radius: 999px;
-  padding: 0.45rem 0.9rem;
+  border-radius: 10px;
+  padding: 10px 14px;
   color: var(--bhu-text);
   text-decoration: none;
   font-weight: 500;
@@ -799,7 +810,7 @@
 }
 
 :root {
-  --bhu-nav-h: 70px;
+  --bhu-nav-h: 56px;
   --bhu-text: #f8fafc;
   --bhu-muted: rgba(248, 250, 252, 0.6);
   --bhu-surface: rgba(1, 2, 10, 0.8);

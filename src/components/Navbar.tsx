@@ -28,6 +28,9 @@ const Navbar: React.FC = () => {
   const indicatorRef = useRef<HTMLDivElement | null>(null);
   const linksRef = useRef<Record<string, HTMLAnchorElement | null>>({});
   const bgRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
+  const lastScrollY = useRef<number>(0);
+  const navHoverRef = useRef<boolean>(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -49,6 +52,22 @@ const Navbar: React.FC = () => {
           break;
         }
       }
+
+      // scroll direction aware reveal/hide
+      const prev = lastScrollY.current;
+      if (!isMenuOpen) {
+        if (navHoverRef.current) {
+          // Keep visible while interacting with the nav
+          setEdgeActive(true);
+        } else {
+          if (y > prev + 6) {
+            setEdgeActive(false); // scrolling down, hide
+          } else if (y < prev - 6) {
+            setEdgeActive(true); // scrolling up, show
+          }
+        }
+      }
+      lastScrollY.current = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -85,6 +104,19 @@ const Navbar: React.FC = () => {
     indicator.style.setProperty("--bhu-indicator-width", `${width}px`);
   }, [active, isMenuOpen]);
 
+  // hover/focus indicator follow
+  const moveIndicatorTo = (el: HTMLAnchorElement | null) => {
+    const indicator = indicatorRef.current;
+    if (!indicator || !el) return;
+    const rect = el.getBoundingClientRect();
+    const parentRect = el.parentElement?.getBoundingClientRect();
+    if (!parentRect) return;
+    const left = rect.left - parentRect.left;
+    const width = rect.width;
+    indicator.style.setProperty("--bhu-indicator-left", `${left}px`);
+    indicator.style.setProperty("--bhu-indicator-width", `${width}px`);
+  };
+
   useEffect(() => {
     const bg = bgRef.current;
     if (!bg) return;
@@ -97,23 +129,69 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
-  // Edge-reveal: show nav when cursor is at top edge, hide when away
+  // Edge-reveal improvements: keep nav visible while hovered/focused
   useEffect(() => {
+    const isFine = window.matchMedia?.('(pointer: fine)')?.matches ?? true;
+    if (!isFine) {
+      setEdgeActive(true);
+      return;
+    }
     let hideTimer: number | undefined;
+
     const onMove = (e: MouseEvent) => {
-      if (e.clientY <= 12) {
+      const header = headerRef.current;
+      const rect = header?.getBoundingClientRect();
+      const inHeader = !!rect &&
+        e.clientY >= rect.top && e.clientY <= rect.bottom &&
+        e.clientX >= rect.left && e.clientX <= rect.right;
+      const nearTop = e.clientY <= 12;
+
+      if (nearTop || inHeader) {
         setEdgeActive(true);
         if (hideTimer) window.clearTimeout(hideTimer);
-      } else if (!isMenuOpen) {
+      } else if (!isMenuOpen && !navHoverRef.current) {
         if (hideTimer) window.clearTimeout(hideTimer);
-        hideTimer = window.setTimeout(() => setEdgeActive(false), 280);
+        hideTimer = window.setTimeout(() => setEdgeActive(false), 320);
       }
     };
+
+    const onEnter = () => {
+      navHoverRef.current = true;
+      if (hideTimer) window.clearTimeout(hideTimer);
+      setEdgeActive(true);
+    };
+    const onLeave = () => {
+      navHoverRef.current = false;
+      if (!isMenuOpen) {
+        if (hideTimer) window.clearTimeout(hideTimer);
+        hideTimer = window.setTimeout(() => setEdgeActive(false), 360);
+      }
+    };
+
     window.addEventListener("mousemove", onMove);
+    const header = headerRef.current;
+    header?.addEventListener("pointerenter", onEnter as any);
+    header?.addEventListener("pointerleave", onLeave as any);
+
     return () => {
       window.removeEventListener("mousemove", onMove);
+      header?.removeEventListener("pointerenter", onEnter as any);
+      header?.removeEventListener("pointerleave", onLeave as any);
       if (hideTimer) window.clearTimeout(hideTimer);
     };
+  }, [isMenuOpen]);
+
+  // Close mobile menu when clicking outside header
+  useEffect(() => {
+    const onDocDown = (e: MouseEvent) => {
+      if (!isMenuOpen) return;
+      const header = headerRef.current;
+      if (header && !header.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', onDocDown);
+    return () => document.removeEventListener('mousedown', onDocDown);
   }, [isMenuOpen]);
 
   // live IST time (UTC+5:30)
@@ -179,6 +257,7 @@ const Navbar: React.FC = () => {
 
   return (
     <header
+      ref={headerRef}
       className={`bhu-nav bhu-nav--dark ${scrolled ? "bhu-nav--scrolled" : ""} ${
         isMenuOpen ? "bhu-nav--open" : ""
       } ${booted ? "bhu-nav--booted" : ""} ${
@@ -243,6 +322,10 @@ const Navbar: React.FC = () => {
               href={link.href}
               ref={(el) => (linksRef.current[link.href] = el)}
               className={`bhu-nav__link ${active === link.href ? "is-active" : ""}`}
+              onMouseEnter={(e) => moveIndicatorTo(e.currentTarget)}
+              onFocus={(e) => moveIndicatorTo(e.currentTarget)}
+              onMouseLeave={() => moveIndicatorTo(linksRef.current[active])}
+              onBlur={() => moveIndicatorTo(linksRef.current[active])}
             >
               <span className="bhu-nav__link-dot" aria-hidden />
               <span className="bhu-nav__link-glass" aria-hidden />

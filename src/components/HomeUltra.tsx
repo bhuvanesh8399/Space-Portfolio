@@ -1,24 +1,21 @@
-﻿import React, { useEffect, useRef, lazy, Suspense, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/home-ultra.css";
 
 const WHAT_I_DO = [
-  { title: "Fullâ€‘Stack Java", blurb: "Spring Boot Â· REST Â· JPA Â· Auth Â· CI/CD" },
-  { title: "React & TypeScript", blurb: "Vite Â· TS Â· Forms Â· State" },
-  { title: "Spring Boot APIs", blurb: "Secure APIs Â· Validation Â· Docs" },
-  { title: "Docker & CI/CD", blurb: "Docker Â· Compose Â· Pipelines" },
-  { title: "SQL Â· Postgres", blurb: "Schema Â· Migrations Â· Queries" },
-  { title: "Cloud Basics (AWS)", blurb: "S3 Â· EC2 Â· Basics" },
+  { title: "Full‑Stack Java", blurb: "Spring Boot · REST · JPA · Auth · CI/CD" },
+  { title: "React & TypeScript", blurb: "Vite · TS · Forms · State" },
+  { title: "Spring Boot APIs", blurb: "Secure APIs · Validation · Docs" },
+  { title: "Docker & CI/CD", blurb: "Docker · Compose · Pipelines" },
+  { title: "SQL · Postgres", blurb: "Schema · Migrations · Queries" },
+  { title: "Cloud Basics (AWS)", blurb: "S3 · EC2 · Basics" },
 ];
 
-const SPLINE_SCENE = "https://prod.spline.design/HHrEorsxJ793wPXn/scene.splinecode";
-const Spline = lazy(() => import("@splinetool/react-spline"));
+// Spline removed
 
 export default function HomeUltra() {
   const wrapRef = useRef<HTMLElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const splineRef = useRef<HTMLDivElement | null>(null);
 
-  // Animated headline word loop
   const WORDS = ["intelligent", "scalable", "secure", "realtime"] as const;
   const [wi, setWi] = useState(0);
   useEffect(() => {
@@ -26,23 +23,19 @@ export default function HomeUltra() {
     return () => clearInterval(t);
   }, []);
 
-  // Subtle mouse parallax for nebula
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
     let raf = 0;
     const onMove = (e: MouseEvent) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 4; // toned down
-      const y = (e.clientY / window.innerHeight - 0.5) * 4; // toned down
+      const xn = e.clientX / window.innerWidth - 0.5;
+      const yn = e.clientY / window.innerHeight - 0.5;
+      const amp = 14; // calm parallax amplitude (px)
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        el.style.setProperty("--px", x.toFixed(2));
-        el.style.setProperty("--py", y.toFixed(2));
-        const s = splineRef.current;
-        if (s) {
-          s.style.setProperty("--sx", ‑${(x) * 1.5}deg‑); // subtle tilt
-          s.style.setProperty("--sy", ‑${(-y) * 1.5}deg‑);
-        }
+        el.style.setProperty("--px", (xn * amp).toFixed(2));
+        el.style.setProperty("--py", (yn * amp).toFixed(2));
+        // Spline removed; only update section parallax
       });
     };
     window.addEventListener("mousemove", onMove);
@@ -52,7 +45,6 @@ export default function HomeUltra() {
     };
   }, []);
 
-  // Theme ping on navbar theme change
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -66,7 +58,6 @@ export default function HomeUltra() {
     return () => window.removeEventListener("bhu-theme-change" as any, onTheme as any);
   }, []);
 
-  // Lightweight star canvas background (respects reduced motion)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -78,10 +69,14 @@ export default function HomeUltra() {
     let width = 0;
     let height = 0;
     let raf = 0;
-  let stars: { x: number; y: number; s: number; v: number; a: number; t: number; w: number }[] = [];
+    let dpr = 1;
+    let stars: { x: number; y: number; s: number; v: number; a: number; t: number; w: number }[] = [];
+    type Streak = { x: number; y: number; vx: number; vy: number; len: number; life: number };
+    let streaks: Streak[] = [];
+    let comet = { x: -0.2, y: 0.18, vx: 0.004, vy: -0.0008, life: 0 };
 
     const init = () => {
-      const dpr = window.devicePixelRatio || 1;
+      dpr = window.devicePixelRatio || 1;
       const rect = canvas.getBoundingClientRect();
       width = Math.max(1, Math.floor(rect.width));
       height = Math.max(1, Math.floor(rect.height));
@@ -89,8 +84,8 @@ export default function HomeUltra() {
       canvas.height = Math.floor(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.round((width * height) / 8000);
-      stars = new Array(count).fill(0).map(() => ({
+      const starCount = window.innerWidth > 980 ? 420 : 260;
+      stars = new Array(starCount).fill(0).map(() => ({
         x: Math.random() * width,
         y: Math.random() * height,
         s: Math.random() * 1.0 + 0.2,
@@ -99,6 +94,28 @@ export default function HomeUltra() {
         t: Math.random() * Math.PI * 2,
         w: 0.008 + Math.random() * 0.006,
       }));
+      streaks = [];
+      comet = { x: -0.2, y: 0.18, vx: 0.004, vy: -0.0008, life: 0 };
+    };
+
+    const maybeSpawnStreak = () => {
+      if (Math.random() < 0.008) {
+        streaks.push({ x: Math.random() * width, y: -20, vx: -1.6, vy: 3.2, len: 60 + Math.random() * 50, life: 0 });
+      }
+    };
+
+    const drawStreaks = () => {
+      for (let i = streaks.length - 1; i >= 0; i--) {
+        const s = streaks[i];
+        s.x += s.vx; s.y += s.vy; s.life++;
+        ctx.strokeStyle = 'rgba(180,200,255,0.35)';
+        ctx.lineWidth = dpr * 1.2;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - s.len, s.y - s.len * 0.35);
+        ctx.stroke();
+        if (s.y > height + 80) streaks.splice(i, 1);
+      }
     };
 
     const draw = () => {
@@ -106,7 +123,7 @@ export default function HomeUltra() {
       ctx.globalCompositeOperation = "lighter";
       for (const st of stars) {
         st.t += st.w;
-        const twinkle = 0.75 + Math.sin(st.t) * 0.25;
+        const twinkle = 0.72 + Math.sin(st.t) * 0.28;
         ctx.globalAlpha = twinkle * st.a;
         ctx.fillStyle = getComputedStyle(document.documentElement)
           .getPropertyValue("--bhu-star")
@@ -114,10 +131,37 @@ export default function HomeUltra() {
         ctx.beginPath();
         ctx.arc(st.x, st.y, st.s, 0, Math.PI * 2);
         ctx.fill();
-        if (!prefersReduce) st.x -= st.v; // slow drift
+        if (!prefersReduce) st.x -= st.v;
         if (st.x < -2) st.x = width + 2;
       }
       ctx.globalAlpha = 1;
+
+      // comet sweep
+      comet.x += comet.vx;
+      comet.y += comet.vy;
+      comet.life += 1;
+      const cx = comet.x * width;
+      const cy = comet.y * height;
+      const tail = ctx.createRadialGradient(cx, cy, 1, cx, cy, 140);
+      tail.addColorStop(0, 'rgba(255,255,255,0.22)');
+      tail.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = tail;
+      ctx.beginPath();
+      ctx.ellipse(cx - 30, cy + 10, 140, 60, -0.35, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.globalAlpha = 0.9;
+      ctx.fillStyle = 'rgba(250,250,255,0.85)';
+      ctx.arc(cx, cy, 2.2 * dpr, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+      if (cx > width + 120 || cy < -120) {
+        comet = { x: -0.2, y: 0.3 + Math.random() * 0.2, vx: 0.0035 + Math.random() * 0.0015, vy: -0.0007 - Math.random() * 0.0006, life: 0 };
+      }
+
+      // rare streak meteors
+      maybeSpawnStreak();
+      drawStreaks();
       raf = requestAnimationFrame(draw);
     };
 
@@ -141,39 +185,25 @@ export default function HomeUltra() {
     if (node) node.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // Lazy-mount Spline when visible
-  const [mountSpline, setMountSpline] = useState(false);
-  useEffect(() => {
-    const el = splineRef.current; if (!el) return;
-    const io = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setMountSpline(true); io.disconnect(); }
-    }, { rootMargin: "200px" });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  // Spline removed
 
   return (
     <section id="home" className="home-ultra" ref={wrapRef} aria-label="Hero">
-      {/* Background layers */}
       <div className="launch-overlay" aria-hidden>
         <div className="hud">
-          <span className="led"></span> Initializing starfield…€¦ <span className="mono">OK</span><br/>
-          Calibrating gyro…€¦ <span className="mono">OK</span>
+          <span className="led"></span> Initializing starfield… <span className="mono">OK</span><br/>
+          Calibrating gyro… <span className="mono">OK</span>
         </div>
       </div>
       <canvas className="home-ultra__canvas" ref={canvasRef} aria-hidden></canvas>
       <div className="home-ultra__nebula" aria-hidden></div>
       <div className="home-ultra__rings" aria-hidden></div>
 
-      {/* Foreground content */}
       <div className="home-ultra__inner">
         <div className="home-ultra__left">
-          <div className="pill">Bhuvanesh Â· Fullâ€‘Stack Java & React</div>
-
-          <p className="intro">Calm builds. Stellar results. Shipping fast without the drama.</p>
-          <h1 className="title">I build <span className="title__accent" aria-live="polite">{WORDS[wi]}</span>, productionâ€‘ready web apps.</h1>
-
-          <p className="lede">B.Tech IT Â· React Â· Vite Â· TypeScript Â· Spring Boot Â· Docker Â· REST Â· CI/CD</p>
+          <p className="intro lede-top">Calm builds. Stellar results. Shipping fast without the drama.</p>
+          <h1 className="title">I build <span className="title__accent nowrap" aria-live="polite">{WORDS[wi]},</span> production‑ready web apps.</h1>
+          <p className="lede">B.Tech IT · React · Vite · TypeScript · Spring Boot · Docker · REST · CI/CD</p>
 
           <div className="cta">
             <button className="btn btn--primary" onClick={() => scrollToId("#projects")}>Enter My Universe</button>
@@ -191,7 +221,7 @@ export default function HomeUltra() {
           <ul className="meta" role="list">
             <li className="card">
               <span className="k">Current Mission</span>
-              <span className="v">Ship a sleek, spaceâ€‘themed portfolio</span>
+              <span className="v">Ship a sleek, space‑themed portfolio</span>
             </li>
             <li className="card">
               <span className="k">Status</span>
@@ -204,28 +234,7 @@ export default function HomeUltra() {
           </ul>
         </div>
 
-        <div className="home-ultra__right" aria-hidden>
-          {/* Spline viewer with overlays (non-destructive cover for branding) */}
-          <div className="spline" ref={splineRef}>
-            {/* Scene fill layer */}
-            {mountSpline ? (
-              <div className="spline__scene" aria-hidden>
-                <Suspense fallback={<div className="skeleton" /> }>
-                  <Spline scene={SPLINE_SCENE} aria-hidden />
-                </Suspense>
-              </div>
-            ) : (
-              <div className="skeleton" />
-            )}
-
-            {/* Overlay helpers (theme-aware) */}
-            <div className="corner-mask" aria-hidden />
-            <div className="corner-chip" aria-hidden>
-              <span className="dot" /> AI Â· Java Â· React
-            </div>
-            <div className="corner-sticker" aria-hidden />
-          </div>
-        </div>
+        {/* Right column with Spline removed */}
       </div>
     </section>
   );
