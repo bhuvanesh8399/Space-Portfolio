@@ -40,8 +40,8 @@ body { font-family: var(--font-body); }
 .home-ultra__inner { position: relative; margin: 0 auto; max-width: 1120px; padding: clamp(84px, 9vw, 132px) 20px 28px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; }
 
 .home-ultra__left { color: var(--fg); text-shadow: 0 0 24px var(--glow-soft); max-width: 680px; }
-.home-ultra .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; font-size: 12.5px; letter-spacing: 0.2px; background: color-mix(in oklab, var(--accent) 18%, transparent); color: color-mix(in oklab, var(--accent) 84%, white); border: 1px solid color-mix(in oklab, var(--accent) 38%, transparent); box-shadow: 0 6px 20px -8px var(--accent); backdrop-filter: blur(6px); }
-.home-ultra .title { margin: 14px 0 10px; font-weight: 800; line-height: 1.06; font-size: clamp(26px, 3.8vw, 54px); letter-spacing: -0.015em; color: var(--fg-strong); max-width: 20ch; hyphens: auto; font-family: var(--font-display); text-wrap: balance; font-variation-settings: "wght" 780; transform: translateZ(0); will-change: transform; }
+.home-ultra .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; font-size: 12px; letter-spacing: 0.2px; background: color-mix(in oklab, var(--accent) 18%, transparent); color: color-mix(in oklab, var(--accent) 84%, white); border: 1px solid color-mix(in oklab, var(--accent) 38%, transparent); box-shadow: 0 6px 20px -8px var(--accent); backdrop-filter: blur(6px); }
+.home-ultra .title { margin: 14px 0 10px; font-weight: 800; line-height: 1.06; font-size: clamp(24px, 3.2vw, 48px); letter-spacing: -0.015em; color: var(--fg-strong); max-width: 20ch; hyphens: auto; font-family: var(--font-display); text-wrap: balance; font-variation-settings: "wght" 780; transform: translateZ(0); will-change: transform; }
 .home-ultra:hover .title { transition: transform 400ms ease; transform: translateY(-1px); }
 @property --pulse { syntax: "<number>"; initial-value: 0; inherits: true; }
 .home-ultra .title__accent { position: relative; display:inline-block; color: var(--accent); text-shadow:
@@ -49,7 +49,7 @@ body { font-family: var(--font-body); }
   0 0 14px color-mix(in oklab, var(--accent) 16%, transparent); animation: accent-glow 10s ease-in-out infinite alternate; filter: saturate(1); }
 .home-ultra .title__accent { transition: opacity .45s ease, transform .45s ease; }
 .home-ultra .title__accent:empty { opacity: .6; }
-.home-ultra .lede { color: var(--fg-dim); font-size: clamp(14px, 1.6vw, 18px); max-width: 40ch; }
+.home-ultra .lede { color: var(--fg-dim); font-size: clamp(12.5px, 1.2vw, 15px); opacity: 0.95; max-width: 40ch; }
 .micro-intro{ font-size:12.5px; letter-spacing:.3px; opacity:.85; color:var(--fg-dim); padding-bottom:6px; text-transform:uppercase; }
 .intro{ margin-top:6px; font-size:13.5px; color:var(--fg-dim); opacity:.9; letter-spacing:.2px; }
 
@@ -57,8 +57,8 @@ body { font-family: var(--font-body); }
 .home-ultra .chip { scroll-snap-align: start; white-space: nowrap; }
 
 .home-ultra .cta { display: flex; gap: 12px; margin: 18px 0 10px; }
-.home-ultra .btn { position: relative; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--stroke); background: var(--btn-bg); color: var(--fg); font-weight: 600; cursor: pointer; transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease; }
-.home-ultra .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 40px -20px var(--accent); }
+.home-ultra .btn { position: relative; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--stroke); background: var(--btn-bg); color: var(--fg); font-weight: 600; cursor: pointer; transition: transform 120ms ease, box-shadow 200ms ease, background 200ms ease; }
+.home-ultra .btn:hover { transform: translateY(-2px) scale(1.01); box-shadow: 0 12px 40px -20px var(--accent); }
 .home-ultra .btn:active { transform: translateY(0); }
 .home-ultra .btn--primary { background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 18%, transparent), transparent); border-color: color-mix(in oklab, var(--accent) 55%, var(--stroke)); }
 .home-ultra .btn--ghost { background: color-mix(in oklab, var(--btn-bg) 70%, transparent); }
@@ -78,8 +78,8 @@ body { font-family: var(--font-body); }
 .home-ultra .meta .k { font-size: 12px; color: var(--fg-dim); }
 .home-ultra .meta .v { font-weight: 600; color: var(--fg); }
 
-.home-ultra__right { min-height: 440px; display: grid; place-items: center; }
-.home-ultra .spline { width: min(560px, 92%); aspect-ratio: 1 / 1; border-radius: 22px; background: color-mix(in oklab, var(--panel) 70%, transparent); border: 1px solid var(--stroke); position: relative; overflow: hidden; box-shadow: 0 30px 120px -60px var(--glow); }
+.home-ultra__right { min-height: 440px; display: grid; place-items: center; justify-self: end; align-self: start; }
+.home-ultra .spline { width: min(420px, 38vw); aspect-ratio: 1 / 1; border-radius: 16px; background: color-mix(in oklab, var(--panel) 70%, transparent); border: 1px solid var(--stroke); position: relative; overflow: hidden; box-shadow: 0 18px 80px -48px var(--glow); }
 .home-ultra .skeleton { position: absolute; inset: 0; background: linear-gradient(110deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.06) 20%, rgba(255,255,255,0.02) 40%); background-size: 200% 100%; animation: shimmer 2.2s linear infinite; }
 /* Ensure Spline viewer fills the frame */
 .home-ultra .spline__scene { position: absolute; inset: 0; }
@@ -157,13 +157,13 @@ html[data-theme="blackhole"] .home-ultra .spline::before { opacity: .85; filter:
 /* Large-to-medium tweaks */
 @media (max-width: 1200px) {
   .home-ultra__rings { right: -120px; top: 24%; width: min(560px, 60vw); }
-  .home-ultra .spline { width: min(520px, 92%); }
+  .home-ultra .spline { width: min(420px, 60vw); }
 }
 
 /* Responsive */
 @media (max-width: 960px) {
   .home-ultra__inner { grid-template-columns: 1fr; gap: 22px; padding-top: 92px; }
-  .home-ultra__right { order: 2; min-height: auto; }
+.home-ultra__right { order: 2; min-height: auto; }
   .home-ultra__rings { opacity: 0.16; right: -160px; top: auto; bottom: 8%; }
   .home-ultra .chips { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 6px; scroll-snap-type: x mandatory; mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
   .home-ultra .meta { grid-template-columns: repeat(2, minmax(0, 1fr)); }

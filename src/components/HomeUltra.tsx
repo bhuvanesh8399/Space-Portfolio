@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, lazy, Suspense, useState } from "react";
+﻿import React, { useEffect, useRef, lazy, Suspense, useState } from "react";
 import "../styles/home-ultra.css";
 
 const WHAT_I_DO = [
-  { title: "Full‑Stack Java", blurb: "Spring Boot · REST · JPA · Auth · CI/CD" },
-  { title: "React & TypeScript", blurb: "Vite · TS · Forms · State" },
-  { title: "Spring Boot APIs", blurb: "Secure APIs · Validation · Docs" },
-  { title: "Docker & CI/CD", blurb: "Docker · Compose · Pipelines" },
-  { title: "SQL · Postgres", blurb: "Schema · Migrations · Queries" },
-  { title: "Cloud Basics (AWS)", blurb: "S3 · EC2 · Basics" },
+  { title: "Fullâ€‘Stack Java", blurb: "Spring Boot Â· REST Â· JPA Â· Auth Â· CI/CD" },
+  { title: "React & TypeScript", blurb: "Vite Â· TS Â· Forms Â· State" },
+  { title: "Spring Boot APIs", blurb: "Secure APIs Â· Validation Â· Docs" },
+  { title: "Docker & CI/CD", blurb: "Docker Â· Compose Â· Pipelines" },
+  { title: "SQL Â· Postgres", blurb: "Schema Â· Migrations Â· Queries" },
+  { title: "Cloud Basics (AWS)", blurb: "S3 Â· EC2 Â· Basics" },
 ];
 
 const SPLINE_SCENE = "https://prod.spline.design/HHrEorsxJ793wPXn/scene.splinecode";
@@ -40,8 +40,8 @@ export default function HomeUltra() {
         el.style.setProperty("--py", y.toFixed(2));
         const s = splineRef.current;
         if (s) {
-          s.style.setProperty("--sx", `${(x) * 1.5}deg`); // subtle tilt
-          s.style.setProperty("--sy", `${(-y) * 1.5}deg`);
+          s.style.setProperty("--sx", ‑${(x) * 1.5}deg‑); // subtle tilt
+          s.style.setProperty("--sy", ‑${(-y) * 1.5}deg‑);
         }
       });
     };
@@ -157,8 +157,8 @@ export default function HomeUltra() {
       {/* Background layers */}
       <div className="launch-overlay" aria-hidden>
         <div className="hud">
-          <span className="led"></span> Initializing starfield… <span className="mono">OK</span><br/>
-          Calibrating gyro… <span className="mono">OK</span>
+          <span className="led"></span> Initializing starfield…€¦ <span className="mono">OK</span><br/>
+          Calibrating gyro…€¦ <span className="mono">OK</span>
         </div>
       </div>
       <canvas className="home-ultra__canvas" ref={canvasRef} aria-hidden></canvas>
@@ -168,12 +168,12 @@ export default function HomeUltra() {
       {/* Foreground content */}
       <div className="home-ultra__inner">
         <div className="home-ultra__left">
-          <div className="pill">Bhuvanesh · Full‑Stack Java & React</div>
+          <div className="pill">Bhuvanesh Â· Fullâ€‘Stack Java & React</div>
 
           <p className="intro">Calm builds. Stellar results. Shipping fast without the drama.</p>
-          <h1 className="title">I build <span className="title__accent" aria-live="polite">{WORDS[wi]}</span>, production‑ready web apps.</h1>
+          <h1 className="title">I build <span className="title__accent" aria-live="polite">{WORDS[wi]}</span>, productionâ€‘ready web apps.</h1>
 
-          <p className="lede">B.Tech IT · React · Vite · TypeScript · Spring Boot · Docker · REST · CI/CD</p>
+          <p className="lede">B.Tech IT Â· React Â· Vite Â· TypeScript Â· Spring Boot Â· Docker Â· REST Â· CI/CD</p>
 
           <div className="cta">
             <button className="btn btn--primary" onClick={() => scrollToId("#projects")}>Enter My Universe</button>
@@ -191,7 +191,7 @@ export default function HomeUltra() {
           <ul className="meta" role="list">
             <li className="card">
               <span className="k">Current Mission</span>
-              <span className="v">Ship a sleek, space‑themed portfolio</span>
+              <span className="v">Ship a sleek, spaceâ€‘themed portfolio</span>
             </li>
             <li className="card">
               <span className="k">Status</span>
@@ -221,7 +221,7 @@ export default function HomeUltra() {
             {/* Overlay helpers (theme-aware) */}
             <div className="corner-mask" aria-hidden />
             <div className="corner-chip" aria-hidden>
-              <span className="dot" /> AI · Java · React
+              <span className="dot" /> AI Â· Java Â· React
             </div>
             <div className="corner-sticker" aria-hidden />
           </div>

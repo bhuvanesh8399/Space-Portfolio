@@ -52,6 +52,12 @@
   opacity: 1;
 }
 
+/* Edge-reveal hidden state: keep a small lip at the top */
+.bhu-nav--booted.bhu-nav--hidden {
+  transform: translateY(calc(-100% + 6px));
+  opacity: 0.96;
+}
+
 /* scroll progress */
 .bhu-nav__progress {
   position: absolute;

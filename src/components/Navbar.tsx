@@ -15,6 +15,7 @@ type Theme = "dark" | "solar" | "lunar" | "blackhole";
 
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
+  const [edgeActive, setEdgeActive] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("dark");
   const [toggleFlash, setToggleFlash] = useState(false);
@@ -96,6 +97,25 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener("mousemove", onMove);
   }, []);
 
+  // Edge-reveal: show nav when cursor is at top edge, hide when away
+  useEffect(() => {
+    let hideTimer: number | undefined;
+    const onMove = (e: MouseEvent) => {
+      if (e.clientY <= 12) {
+        setEdgeActive(true);
+        if (hideTimer) window.clearTimeout(hideTimer);
+      } else if (!isMenuOpen) {
+        if (hideTimer) window.clearTimeout(hideTimer);
+        hideTimer = window.setTimeout(() => setEdgeActive(false), 280);
+      }
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (hideTimer) window.clearTimeout(hideTimer);
+    };
+  }, [isMenuOpen]);
+
   // live IST time (UTC+5:30)
   useEffect(() => {
     const updateTime = () => {
@@ -161,7 +181,9 @@ const Navbar: React.FC = () => {
     <header
       className={`bhu-nav bhu-nav--dark ${scrolled ? "bhu-nav--scrolled" : ""} ${
         isMenuOpen ? "bhu-nav--open" : ""
-      } ${booted ? "bhu-nav--booted" : ""}`}
+      } ${booted ? "bhu-nav--booted" : ""} ${
+        !edgeActive && !isMenuOpen ? "bhu-nav--hidden" : ""
+      }`}
     >
       {/* scroll progress rail */}
       <div className="bhu-nav__progress" style={{ width: `${scrollProgress}%` }} />
