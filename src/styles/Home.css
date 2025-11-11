@@ -629,7 +629,7 @@ html[data-theme="blackhole"] {
   transform: rotate(-12deg);
 }
 
-.home-ultra__inner { position: relative; margin: 0 auto; max-width: 1120px; padding: clamp(72px, 8vw, 120px) 20px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; align-items: center; }
+.home-ultra__inner { position: relative; margin: 0 auto; max-width: 1120px; padding: clamp(72px, 8vw, 120px) 20px; display: grid; grid-template-columns: minmax(300px,1fr) minmax(380px,540px); gap: 40px; align-items: start; }
 
 .home-ultra__left { color: var(--hp-text); text-shadow: 0 0 24px rgba(124, 199, 255, 0.18); }
 .home-ultra .pill { display: inline-flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 999px; font-size: 12.5px; letter-spacing: 0.2px; background: color-mix(in oklab, var(--hp-accent) 18%, transparent); color: color-mix(in oklab, var(--hp-accent) 84%, white); border: 1px solid color-mix(in oklab, var(--hp-accent) 38%, transparent); box-shadow: 0 6px 20px -8px var(--hp-accent); backdrop-filter: blur(6px); }

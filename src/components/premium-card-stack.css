@@ -1,0 +1,117 @@
+/* Scoped tokens for premium section to avoid global theme collisions */
+.premium-showcase{
+  --accent: #8A5BFF; /* brand color */
+  --panel: #0e1030;
+  --fg: #e8ebff;
+  --fg-dim: #aeb6d9;
+  --stroke: rgba(255,255,255,.08);
+  --glow: color-mix(in oklab, var(--accent) 40%, transparent);
+}
+
+/* Section scaffold (right-side aligned if you use a two-column grid) */
+.premium-showcase{
+  display:grid; gap:16px;
+  align-content:start;
+  justify-items:end; /* right side */
+  padding: 8px 0;
+}
+
+/* header */
+.ps-head{ width: min(560px, 100%); display:flex; align-items:center; justify-content:space-between; }
+.ps-head h2{ font: 700 20px/1.2 system-ui; letter-spacing:.2px; color: var(--fg); margin:0; }
+.ps-ctas{ display:flex; align-items:center; gap:10px; }
+.ps-btn{ width:38px; height:38px; border-radius:10px; border:1px solid var(--stroke); background:#0B0F2A; color:var(--fg); font-weight:700; cursor:pointer; }
+.ps-dot{ font: 600 12px/1 system-ui; color: var(--fg-dim) }
+
+/* LAYERED STACK with breathing float and tilt */
+.ps-stack{
+  position:relative;
+  width: min(540px, 92vw);
+  height: 260px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  /* tilt from mouse */
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  /* breathing float */
+  animation: ps-breathe 6.5s ease-in-out infinite alternate;
+  /* subtle glow */
+  filter: drop-shadow(0 30px 60px rgba(138,91,255,.22));
+}
+
+/* Layer 2 & 3: pseudo-elements behind the front card to create 1st/2nd/3rd layers */
+.ps-stack::before,
+.ps-stack::after{
+  content:"";
+  position:absolute; inset:0;
+  border-radius:18px;
+  transform: translateZ(-12px) translate(10px, 10px) scale(.985);
+  background: linear-gradient(180deg, rgba(138,91,255,.10), rgba(255,255,255,.03));
+  border: 1px dashed rgba(138,91,255,.35);
+  box-shadow: 0 8px 24px -12px rgba(138,91,255,.35) inset;
+}
+.ps-stack::after{
+  transform: translateZ(-24px) translate(20px, 20px) scale(.97);
+  opacity:.75;
+  border-style: solid;
+  border-color: rgba(138,91,255,.18);
+}
+
+/* card faces */
+.ps-card{
+  position:absolute; inset:0; border-radius:18px;
+  background:
+    radial-gradient(120% 120% at 20% 0%, rgba(138,91,255,.18), transparent 55%),
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.00));
+  border:1px solid var(--stroke);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  display:grid; align-content:center; gap:10px; padding:18px 20px;
+  backface-visibility: hidden;
+}
+
+/* front specifics */
+.card-front .ps-title{ font: 800 22px/1.2 system-ui; color: var(--fg); margin:0 }
+.ps-tech{ font-size:13px; color: var(--fg-dim) }
+.ps-meta strong{ color: var(--accent); font: 800 18px/1 system-ui; }
+
+/* badges & button */
+.badge{ justify-self:start; font-size:11px; padding:6px 10px; border-radius:999px; border:1px solid var(--stroke);
+  background: color-mix(in oklab, var(--accent) 10%, #0b0f24); color: var(--fg) }
+.badge--glow{ box-shadow: 0 0 18px -6px var(--glow); border-color: color-mix(in oklab, var(--accent) 60%, var(--stroke)); }
+.mini-btn{ justify-self:start; padding:8px 12px; border-radius:10px; border:1px solid var(--stroke); background:#0B0F2A; color:var(--fg); font-weight:700; cursor:pointer; }
+
+/* back face */
+.card-back{
+  transform: rotateY(180deg);
+  text-align:left;
+}
+.card-back h4{ font: 800 20px/1 system-ui; color: var(--accent); margin:0 }
+.ps-blurb{ color: var(--fg-dim); font-size:13px }
+
+/* flip transition */
+.ps-stack .card-front, .ps-stack .card-back{
+  transition: transform .6s cubic-bezier(.22,.61,.36,1);
+}
+.ps-stack.is-flipped .card-front{ transform: rotateY(180deg); }
+.ps-stack.is-flipped .card-back{ transform: rotateY(360deg); }
+
+/* breathing float keyframes */
+@keyframes ps-breathe{
+  0%   { transform: translateY(0px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)); }
+  100% { transform: translateY(-8px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)); }
+}
+
+/* small hint */
+.ps-hint{ font-size:12px; color: var(--fg-dim); margin-top:8px }
+
+/* mobile */
+@media (max-width:640px){
+  .ps-stack{ height: 230px; }
+}
+
+/* Optional polish: soft accent outline on hover */
+.ps-stack:hover .ps-card{
+  box-shadow: 0 0 0 1px rgba(138,91,255,.35) inset, 0 24px 60px -40px var(--glow);
+}
+

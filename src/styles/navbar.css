@@ -1,5 +1,5 @@
 :root {
-  --bhu-nav-h: 56px;
+  --bhu-nav-h: 54px;
   --bhu-text: #f8fafc;
   --bhu-muted: rgba(248, 250, 252, 0.6);
   --bhu-surface: rgba(1, 2, 10, 0.8);
@@ -95,7 +95,7 @@
   position: absolute;
   inset: 3px 3px 3px 3px;
   background: color-mix(in oklab, var(--bhu-surface) 65%, transparent);
-  backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(8px) saturate(110%);
   border: 1px solid rgba(248, 250, 252, 0.012);
   border-radius: 26px;
   box-shadow:
@@ -244,7 +244,7 @@
   z-index: 2;
   height: 100%;
   display: flex;
-  padding: 0 1.5rem;
+  padding: 6px 12px;
   gap: 1rem;
   align-items: center;
   justify-content: space-between;
@@ -810,7 +810,7 @@
 }
 
 :root {
-  --bhu-nav-h: 56px;
+  --bhu-nav-h: 54px;
   --bhu-text: #f8fafc;
   --bhu-muted: rgba(248, 250, 252, 0.6);
   --bhu-surface: rgba(1, 2, 10, 0.8);

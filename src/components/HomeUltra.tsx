@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/home-ultra.css";
+import "../styles/overrides.css";
+import PremiumCardStack from "./PremiumCardStack";
 
 const WHAT_I_DO = [
   { title: "Full‑Stack Java", blurb: "Spring Boot · REST · JPA · Auth · CI/CD" },
@@ -18,6 +20,7 @@ export default function HomeUltra() {
 
   const WORDS = ["intelligent", "scalable", "secure", "realtime"] as const;
   const [wi, setWi] = useState(0);
+  // Orbit Deck data moved to src/data/orbitCards.ts and rendered via OrbitDeck component
   useEffect(() => {
     const t = setInterval(() => setWi((i) => (i + 1) % WORDS.length), 2600);
     return () => clearInterval(t);
@@ -30,7 +33,7 @@ export default function HomeUltra() {
     const onMove = (e: MouseEvent) => {
       const xn = e.clientX / window.innerWidth - 0.5;
       const yn = e.clientY / window.innerHeight - 0.5;
-      const amp = 14; // calm parallax amplitude (px)
+      const amp = 18; // calm parallax amplitude (px)
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         el.style.setProperty("--px", (xn * amp).toFixed(2));
@@ -71,12 +74,15 @@ export default function HomeUltra() {
     let raf = 0;
     let dpr = 1;
     let stars: { x: number; y: number; s: number; v: number; a: number; t: number; w: number }[] = [];
-    type Streak = { x: number; y: number; vx: number; vy: number; len: number; life: number };
-    let streaks: Streak[] = [];
+    type Shooter = { x: number; y: number; life: number; vx: number; vy: number };
+    let shooters: Shooter[] = [];
+    let lastShooter = 0;
+    type Comet = { x: number; y: number; vx: number; vy: number; life: number };
+    let comets: Comet[] = [];
     let comet = { x: -0.2, y: 0.18, vx: 0.004, vy: -0.0008, life: 0 };
 
     const init = () => {
-      dpr = window.devicePixelRatio || 1;
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = canvas.getBoundingClientRect();
       width = Math.max(1, Math.floor(rect.width));
       height = Math.max(1, Math.floor(rect.height));
@@ -84,7 +90,7 @@ export default function HomeUltra() {
       canvas.height = Math.floor(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const starCount = window.innerWidth > 980 ? 420 : 260;
+      const starCount = 420;
       stars = new Array(starCount).fill(0).map(() => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -94,28 +100,21 @@ export default function HomeUltra() {
         t: Math.random() * Math.PI * 2,
         w: 0.008 + Math.random() * 0.006,
       }));
-      streaks = [];
+      shooters = [];
+      comets = [];
       comet = { x: -0.2, y: 0.18, vx: 0.004, vy: -0.0008, life: 0 };
     };
 
-    const maybeSpawnStreak = () => {
-      if (Math.random() < 0.008) {
-        streaks.push({ x: Math.random() * width, y: -20, vx: -1.6, vy: 3.2, len: 60 + Math.random() * 50, life: 0 });
-      }
-    };
-
-    const drawStreaks = () => {
-      for (let i = streaks.length - 1; i >= 0; i--) {
-        const s = streaks[i];
-        s.x += s.vx; s.y += s.vy; s.life++;
-        ctx.strokeStyle = 'rgba(180,200,255,0.35)';
-        ctx.lineWidth = dpr * 1.2;
-        ctx.beginPath();
-        ctx.moveTo(s.x, s.y);
-        ctx.lineTo(s.x - s.len, s.y - s.len * 0.35);
-        ctx.stroke();
-        if (s.y > height + 80) streaks.splice(i, 1);
-      }
+    const maybeSpawnShooter = (t: number, w: number, h: number) => {
+      if (t - lastShooter < 3000 + Math.random() * 4000) return;
+      lastShooter = t;
+      shooters.push({
+        x: Math.random() * w * 0.6 + w * 0.2,
+        y: h * 0.15,
+        life: 0,
+        vx: -2 - Math.random() * 2,
+        vy: 2 + Math.random() * 1.5,
+      });
     };
 
     const draw = () => {
@@ -123,7 +122,7 @@ export default function HomeUltra() {
       ctx.globalCompositeOperation = "lighter";
       for (const st of stars) {
         st.t += st.w;
-        const twinkle = 0.72 + Math.sin(st.t) * 0.28;
+        const twinkle = 0.7 + Math.sin(st.t) * 0.25;
         ctx.globalAlpha = twinkle * st.a;
         ctx.fillStyle = getComputedStyle(document.documentElement)
           .getPropertyValue("--bhu-star")
@@ -159,9 +158,57 @@ export default function HomeUltra() {
         comet = { x: -0.2, y: 0.3 + Math.random() * 0.2, vx: 0.0035 + Math.random() * 0.0015, vy: -0.0007 - Math.random() * 0.0006, life: 0 };
       }
 
-      // rare streak meteors
-      maybeSpawnStreak();
-      drawStreaks();
+      // rare comets (trailing line)
+      if (Math.random() < 0.002) {
+        const y = Math.random() * 0.4 * height + height * 0.1;
+        comets.push({ x: -40, y, vx: 4, vy: -0.7, life: 1 });
+      }
+      for (let i = comets.length - 1; i >= 0; i--) {
+        const c = comets[i];
+        c.x += c.vx; c.y += c.vy; c.life -= 0.004;
+        const grad = ctx.createLinearGradient(c.x - 80, c.y + 14, c.x, c.y);
+        grad.addColorStop(0, 'rgba(255,255,255,0)');
+        grad.addColorStop(1, 'rgba(255,255,255,0.8)');
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 2 * dpr;
+        ctx.beginPath();
+        ctx.moveTo(c.x - 80, c.y + 14);
+        ctx.lineTo(c.x, c.y);
+        ctx.stroke();
+        if (c.x > width + 40 || c.life <= 0) comets.splice(i, 1);
+      }
+
+      // occasional shooting stars
+      maybeSpawnShooter(performance.now(), width, height);
+      for (let i = shooters.length - 1; i >= 0; i--) {
+        const s = shooters[i];
+        s.x += s.vx; s.y += s.vy; s.life += 1;
+        ctx.globalAlpha = Math.max(0, 1 - s.life / 80);
+        ctx.strokeStyle = getComputedStyle(document.documentElement)
+          .getPropertyValue("--bhu-star")
+          .trim() || "#b9e1ff";
+        ctx.lineWidth = dpr * 1.2;
+        ctx.beginPath();
+        ctx.moveTo(s.x, s.y);
+        ctx.lineTo(s.x - s.vx * 10, s.y - s.vy * 10);
+        ctx.stroke();
+        if (s.life > 80) shooters.splice(i, 1);
+      }
+      ctx.globalAlpha = 1;
+      // quick comet line (soft streak)
+      const tsoft = performance.now() / 10000;
+      const cx2 = (tsoft % 1) * width;
+      const cy2 = (Math.sin(tsoft * 6) * 0.3 + 0.5) * height;
+      const grad2 = ctx.createLinearGradient(cx2 - 120, cy2 - 40, cx2, cy2);
+      grad2.addColorStop(0, "rgba(255,255,255,0)");
+      grad2.addColorStop(1, "rgba(255,255,255,.35)");
+      ctx.strokeStyle = grad2;
+      ctx.lineWidth = 2 * dpr;
+      ctx.beginPath();
+      ctx.moveTo(cx2 - 120, cy2 - 40);
+      ctx.lineTo(cx2, cy2);
+      ctx.stroke();
+
       raf = requestAnimationFrame(draw);
     };
 
@@ -202,17 +249,25 @@ export default function HomeUltra() {
       <div className="home-ultra__inner">
         <div className="home-ultra__left">
           <p className="intro lede-top">Calm builds. Stellar results. Shipping fast without the drama.</p>
-          <h1 className="title">I build <span className="title__accent nowrap" aria-live="polite">{WORDS[wi]},</span> production‑ready web apps.</h1>
-          <p className="lede">B.Tech IT · React · Vite · TypeScript · Spring Boot · Docker · REST · CI/CD</p>
+          <p className="intro-cycler" aria-label="intro">
+            <span className="intro-track">
+              <b>Full-Stack Java</b>
+              <b>React + TS</b>
+              <b>Docker CI/CD</b>
+              <b>Space UI Lover</b>
+            </span>
+          </p>
+          <h1 className="title">I build <span className="title__accent">stellar</span>, production‑grade web apps.</h1>
+          <p className="lede">Full-Stack Java · React · Spring Boot · Docker · SQL</p>
 
           <div className="cta">
             <button className="btn btn--primary" onClick={() => scrollToId("#projects")}>Enter My Universe</button>
             <button className="btn btn--ghost" onClick={() => scrollToId("#contact")}>Contact</button>
           </div>
 
-          <ul className="chips">
+          <ul className="chips" role="list">
             {WHAT_I_DO.map((t) => (
-              <li key={t.title} className="chip">
+              <li key={t.title} className="chip" role="listitem">
                 <span className="dot" /> {t.title}
               </li>
             ))}
@@ -234,7 +289,10 @@ export default function HomeUltra() {
           </ul>
         </div>
 
-        {/* Right column with Spline removed */}
+        {/* Right column (Premium one-by-one layered card) */}
+        <div className="home-ultra__right" aria-hidden={false}>
+          <PremiumCardStack />
+        </div>
       </div>
     </section>
   );

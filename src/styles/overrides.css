@@ -1,0 +1,36 @@
+/* HARD OVERRIDE ANY VERTICAL WRITING */
+.home-ultra__right,
+.home-ultra__right *{
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  rotate: 0deg !important;
+}
+
+/* Hide any leftover right rail components if present */
+.right-rail,
+.roadmap-rail,
+.timeline-rail,
+.skills-rail{
+  display: none !important;
+}
+
+/* Neutralize transforms only on known stray rail elements */
+.right-rail,
+.roadmap-rail,
+.timeline-rail,
+.skills-rail,
+.home-ultra__right .rail{
+  transform: none !important;
+}
+
+/* Restore proper grid layout */
+.home-ultra__inner{
+  display: grid;
+  grid-template-columns: minmax(300px,1fr) minmax(380px,540px);
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 900px){
+  .home-ultra__inner{ grid-template-columns: 1fr; }
+}

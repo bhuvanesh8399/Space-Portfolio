@@ -1,0 +1,153 @@
+:root {
+  --accent: #8A5BFF;
+  --panel: #0D1124;
+  --panel-dark: #090B18;
+  --stroke: rgba(255,255,255,0.08);
+}
+
+/* Wrapper */
+.orbit-deck-wrapper {
+  position: relative;
+  max-width: 560px;
+  transform: translateY(4px);
+}
+
+/* Grid */
+.orbit-deck {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Card */
+.orbit-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--panel), var(--panel-dark));
+  border: 1px solid var(--stroke);
+  border-radius: 18px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform .28s cubic-bezier(.22,.61,.36,1),
+              box-shadow .28s cubic-bezier(.22,.61,.36,1);
+}
+
+.orbit-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 70px -30px var(--accent);
+}
+
+/* Glow layer */
+.orbit-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  opacity: .14;
+  filter: blur(55px);
+  transition: opacity .3s, filter .3s;
+}
+
+.orbit-card:hover .orbit-glow {
+  opacity: .32;
+  filter: blur(95px);
+}
+
+/* Tag */
+.orbit-tag {
+  font-size: 12px;
+  letter-spacing: .45px;
+  text-transform: uppercase;
+  color: var(--accent);
+  width: fit-content;
+  background: rgba(138,91,255,0.14);
+  padding: 6px 12px;
+  border-radius: 999px;
+}
+
+/* Title */
+.orbit-title {
+  font-size: clamp(16px, 1.4vw, 22px);
+  color: #fff;
+  line-height: 1.2;
+}
+
+/* Nebula background */
+.nebula-glow-field {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:-2;
+}
+
+.nebula-blob {
+  position:absolute;
+  border-radius:50%;
+  filter:blur(180px);
+  opacity:.35;
+}
+
+.nebula-blob.purple {
+  width:460px; height:460px;
+  background: radial-gradient(circle, #8A5BFF 0%, transparent 70%);
+  top:-10%; left:-12%;
+}
+
+.nebula-blob.cyan {
+  width:420px; height:420px;
+  background: radial-gradient(circle, #5EE7FF 0%, transparent 70%);
+  bottom:-12%; right:-8%;
+}
+
+/* Cursor float layer */
+#orbit-deck:hover .orbit-card {
+  transition: transform .15s linear;
+}
+
+/* Stack wrapper */
+.orbit-stack {
+  position: relative;
+  width: 380px;
+  height: 420px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  perspective: 1400px;
+}
+
+/* Layered card positioning */
+.orbit-card.layer {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  transform-style: preserve-3d;
+
+  /* depth spacing formula */
+  transform:
+    translateY(calc(var(--i) * 20px))
+    translateZ(calc(var(--i) * -60px))
+    rotateX(8deg);
+
+  opacity: calc(1 - var(--i) * 0.12);
+  z-index: calc(20 - var(--i));
+  transition:
+    transform .45s cubic-bezier(.22,.61,.36,1),
+    opacity .45s cubic-bezier(.22,.61,.36,1);
+}
+
+/* Hover bring-to-front */
+.orbit-card.layer:hover {
+  transform:
+    translateY(calc(var(--i) * 10px))
+    translateZ(calc(var(--i) * -10px))
+    rotateX(0deg);
+  opacity: 1;
+  z-index: 30;
+  box-shadow: 0 0 90px -34px var(--accent);
+}

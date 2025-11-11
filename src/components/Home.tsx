@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "../styles/Home.css";
+import "../styles/overrides.css";
 
 const Home: React.FC = () => {
   // Ultra hero enhancements

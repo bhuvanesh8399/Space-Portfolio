@@ -1,0 +1,24 @@
+:root{
+  --accent:#8A5BFF;
+  --fg:#E8ECF8; --fg-dim:#A4AECC; --fg-strong:#FFFFFF;
+  --bg:#0A0F22; --panel:#101733; --stroke:#2E3A66; --glow: #8A5BFF55;
+  --btn-bg:#121939;
+  --font-display:"Space Grotesk",system-ui;
+  --font-text:"Inter",system-ui;
+}
+
+html,body { background: var(--bg); color: var(--fg); font-family: var(--font-text); }
+
+.title{
+  font-size: clamp(26px, 4.6vw, 52px);
+  line-height: 1.1;
+}
+.title__accent{
+  background: linear-gradient(90deg, var(--accent), #fff, var(--accent));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: hue-sweep 10s linear infinite;
+}
+.lede{ font-size: clamp(13px,1.4vw,16px); letter-spacing:.1px; opacity:.9 }
+
+@keyframes hue-sweep { 0%{filter:hue-rotate(0)} 100%{filter:hue-rotate(360deg)} }
+
