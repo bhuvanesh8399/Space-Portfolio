@@ -20,7 +20,7 @@ export default function OrbitDeck() {
   const [hero, setHero] = useState(0);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
-  // cycle every 3.5s
+  // cycle every 3.5s (desktop)
   useEffect(() => {
     const id = setInterval(() => setHero((h) => (h + 1) % CARDS.length), 3500);
     return () => clearInterval(id);
@@ -29,10 +29,12 @@ export default function OrbitDeck() {
   // exactly two visible cards
   const visible = useMemo(() => [CARDS[hero]], [hero]);
 
-  // pointer tilt
+  // pointer tilt (skip on touch/coarse pointers)
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
+    const prefersCoarse = window.matchMedia?.("(hover: none) and (pointer: coarse)").matches;
+    if (prefersCoarse) return;
     const onMove = (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width;
@@ -45,10 +47,22 @@ export default function OrbitDeck() {
   }, []);
 
   return (
-    <section className="orbit-root" aria-label="Premium card showcase" ref={rootRef}>
-      <div className="od-stage">
+    <section
+      className="orbit-root"
+      aria-label="Premium card showcase"
+      aria-roledescription="carousel"
+      aria-live="polite"
+      ref={rootRef}
+    >
+      <div className="od-stage" role="list">
         {visible.map((c, i) => (
-          <article key={i} className={`od-card ${i === 0 ? "is-hero" : "is-trailer"}`} style={{ "--depth": i } as React.CSSProperties}>
+          <article
+            role="listitem"
+            key={i}
+            className={`od-card ${i === 0 ? "is-hero" : "is-trailer"}`}
+            style={{ "--depth": i } as React.CSSProperties}
+            tabIndex={0}
+          >
             {/* soft moving glow field */}
             <div className="od-glow" aria-hidden="true" />
             <div className="od-top">
