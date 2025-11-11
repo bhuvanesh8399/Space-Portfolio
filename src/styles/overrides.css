@@ -15,13 +15,34 @@
 }
 
 /* Neutralize transforms only on known stray rail elements */
-.right-rail,
-.roadmap-rail,
-.timeline-rail,
-.skills-rail,
-.home-ultra__right .rail{
+  .right-rail,
+  .roadmap-rail,
+  .timeline-rail,
+  .skills-rail,
+  .home-ultra__right .rail{
   transform: none !important;
 }
+
+/* Remove any leftover hero lane/rail elements */
+.hero-lane,
+.hero-rail,
+.floating-track{
+  display: none !important;
+}
+
+/* Hide any legacy right-column visuals that can appear as a wide glass bar */
+.home-ultra__right .planet-card,
+.home-ultra__right .planet-orb,
+.home-ultra__right .planet-ring,
+.home-ultra__right .spline-cover,
+.home-ultra__right .spline-road,
+.home-ultra__right .orbit-deck,
+.home-ultra__right .orbit-card{
+  display: none !important;
+}
+
+/* Ensure new deck sits above background lanes */
+.home-ultra__right .orbit-root{ position: relative; z-index: 4; }
 
 /* Restore proper grid layout */
 .home-ultra__inner{

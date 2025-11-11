@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import "../styles/home-ultra.css";
 import "../styles/overrides.css";
 import OrbitDeck from "./OrbitDeck";
-import OrbitDeck from "./OrbitDeck";
-import "../styles/orbit-deck.css";
 
 const WHAT_I_DO = [
   { title: "Full‑Stack Java", blurb: "Spring Boot · REST · JPA · Auth · CI/CD" },
@@ -315,9 +313,9 @@ export default function HomeUltra() {
           </ul>
         </div>
 
-        {/* Right column (Orbit Deck - layered game launcher) */}
+        {/* Right column: premium two-card vertical deck */}
         <div className="home-ultra__right" aria-hidden={false}>
-          <OrbitDeck accent="#8A5BFF" compact />
+          <OrbitDeck />
         </div>
       </div>
     </section>
