@@ -354,3 +354,47 @@ html[data-theme="blackhole"] .home-ultra{ --fg:#dce2ff; --fg-strong:#ffffff; --f
   transform-style: preserve-3d;
   will-change: transform;
 }
+
+/* N1: Hero spacing below fixed navbar and responsive layout */
+.home-ultra{
+  min-height: 100vh;
+  padding-top: calc(58px + 32px); /* navbar height + breathing */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-ultra__inner{
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center;
+  text-align: center;
+  padding: 0 18px;
+}
+
+@media (min-width: 860px){
+  .home-ultra__inner{
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* Comfortable typography on small devices */
+.home-ultra .title{
+  font-size: clamp(28px, 7vw, 48px);
+  line-height: 1.1;
+  max-width: 14ch;
+  margin-inline: auto;
+}
+.home-ultra .lede{
+  font-size: clamp(14px, 4vw, 17px);
+  max-width: 32ch;
+  margin-inline: auto;
+  opacity: .85;
+}
+@media (min-width: 860px){
+  .home-ultra .title,
+  .home-ultra .lede{ margin-inline: 0; }
+}

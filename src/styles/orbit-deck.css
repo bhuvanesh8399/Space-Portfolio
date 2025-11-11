@@ -1,0 +1,94 @@
+:root{
+  --accent:#8A5BFF;
+  --fg:#EAECF1;
+  --fg-dim:#A4AECE;
+  --panel: #0F1531;
+  --panel-2: #0B1026;
+  --stroke: rgba(255,255,255,.08);
+  --glow: color-mix(in oklab, var(--accent) 60%, transparent);
+  --radius: 18px;
+}
+.orbit-root{
+  position: relative; isolation:isolate;
+  padding: clamp(56px, 8vw, 96px) 16px 24px;
+  min-height: 88vh;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--fg);
+  overflow: hidden;
+}
+.orbit-root::before{
+  content:""; position:absolute; inset:-20%;
+  background: radial-gradient(280px 280px at var(--mx, -10px) var(--my, -10px), color-mix(in oklab,var(--accent) 20%, #fff), transparent 55%);
+  opacity:.14; pointer-events:none; filter: blur(20px); transition: opacity .25s;
+}
+.orbit-bg .glyph-field{
+  position:absolute; inset:-8%;
+  background-image:
+    radial-gradient(60px 60px at 20% 20%, rgba(138,91,255,.18), transparent 60%),
+    radial-gradient(80px 80px at 80% 10%, rgba(138,91,255,.12), transparent 60%),
+    radial-gradient(100px 100px at 40% 80%, rgba(90,140,255,.10), transparent 60%);
+  filter: blur(40px);
+  transform: rotate(0deg);
+  animation: field-rotate 40s linear infinite;
+  opacity:.4;
+}
+@keyframes field-rotate{ 0%{ transform: rotate(0deg) } 100%{ transform: rotate(360deg) } }
+.stack{ display:grid; gap: 14px; max-width: 680px; margin-inline:auto; }
+.card{
+  position: relative; width: 100%; height: 104px;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), transparent 70%), var(--panel);
+  display:grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "tag title stat"
+    "tag meta  stat";
+  align-items:center;
+  padding: 12px 14px;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(-1px * var(--depth, 0))) translateY(var(--floatY, 0px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition: transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s, background .25s, border-color .25s;
+  z-index: var(--z, 1);
+  box-shadow: 0 18px 48px -36px rgba(0,0,0,.6);
+  outline: none;
+}
+.card .rim{
+  position:absolute; inset:-2px; border-radius: inherit; pointer-events:none;
+  background: radial-gradient(120px 120px at var(--mx, -50px) var(--my, -50px), color-mix(in oklab, var(--accent) 60%, transparent), transparent 60%);
+  filter: blur(14px); opacity:.0; transition: opacity .25s;
+}
+.card:hover .rim{ opacity:.65; }
+.card:is(:hover,:focus-visible){
+  transform: translateZ(0) translateY(calc(var(--floatY, 0px) - 1px)) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(1.008);
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--stroke));
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 8%, transparent), transparent 70%), var(--panel);
+}
+.card.is-hero{
+  background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 12%, transparent), transparent 70%), var(--panel);
+  box-shadow: 0 30px 90px -40px color-mix(in oklab, var(--accent) 35%, black);
+  transform: translateZ(0) translateY(var(--floatY, 0px));
+}
+.card.is-locked{ animation: snap .24s ease }
+@keyframes snap{ 0%{ transform: translateY(0) scale(1.02) } 100%{ transform: translateY(0) scale(1) } }
+.tag{ grid-area: tag; font-size: 12px; padding: 6px 10px; border-radius: 999px; border:1px solid var(--stroke); color: var(--fg); background: color-mix(in oklab, var(--panel-2) 90%, transparent) }
+.title{ grid-area: title; font-weight: 700; font-size: 16px; color: var(--fg); letter-spacing:.2px }
+.meta{ grid-area: meta; font-size: 12px; color: var(--fg-dim) }
+.stat{ grid-area: stat; font: 700 14px Inter, system-ui; color: var(--accent) }
+.orbit-root.is-compact .card{ height: 92px; padding:10px 12px }
+.orbit-root.is-compact .title{ font-size:15px }
+.orbit-root.is-compact .meta{ font-size:11px }
+.orbit-root.is-compact .tag{ font-size:11px; padding:5px 9px }
+.orbit-root.is-compact .stat{ font-size:13px }
+@media (min-width: 720px){
+  .stack{ gap: 16px; }
+  .card{ height: 112px; }
+  .title{ font-size: 17px }
+}
+@media (min-width: 1040px){
+  .stack{ max-width: 760px; }
+  .card{ height: 118px; }
+  .title{ font-size: 18px }
+}

@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/home-ultra.css";
 import "../styles/overrides.css";
-import PremiumCardStack from "./PremiumCardStack";
+import OrbitDeck from "./OrbitDeck";
+import OrbitDeck from "./OrbitDeck";
+import "../styles/orbit-deck.css";
 
 const WHAT_I_DO = [
   { title: "Full‑Stack Java", blurb: "Spring Boot · REST · JPA · Auth · CI/CD" },
@@ -44,6 +46,30 @@ export default function HomeUltra() {
     window.addEventListener("mousemove", onMove);
     return () => {
       window.removeEventListener("mousemove", onMove);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
+
+  // Optional: soft deck drift following cursor (desktop only)
+  useEffect(() => {
+    const hero = wrapRef.current;
+    if (!hero) return;
+    const stack = hero.querySelector('.orbit-stack') as HTMLElement | null;
+    if (!stack) return;
+    const prefersTouch = window.matchMedia?.('(hover: none) and (pointer: coarse)').matches;
+    if (prefersTouch) return; // disable on touch for smoothness
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 6;
+      const y = (e.clientY / window.innerHeight - 0.5) * -6;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        stack.style.transform = `translateY(${y}px) translateX(${x}px)`;
+      });
+    };
+    hero.addEventListener('mousemove', onMove);
+    return () => {
+      hero.removeEventListener('mousemove', onMove);
       cancelAnimationFrame(raf);
     };
   }, []);
@@ -289,9 +315,9 @@ export default function HomeUltra() {
           </ul>
         </div>
 
-        {/* Right column (Premium one-by-one layered card) */}
+        {/* Right column (Orbit Deck - layered game launcher) */}
         <div className="home-ultra__right" aria-hidden={false}>
-          <PremiumCardStack />
+          <OrbitDeck accent="#8A5BFF" compact />
         </div>
       </div>
     </section>

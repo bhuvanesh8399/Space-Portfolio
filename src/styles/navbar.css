@@ -1,5 +1,5 @@
 :root {
-  --bhu-nav-h: 54px;
+  --bhu-nav-h: 58px;
   --bhu-text: #f8fafc;
   --bhu-muted: rgba(248, 250, 252, 0.6);
   --bhu-surface: rgba(1, 2, 10, 0.8);
@@ -45,6 +45,13 @@
   transform: translateY(-100%);
   opacity: 0;
   transition: transform 0.35s ease, opacity 0.35s ease;
+  /* N1 fixed glass baseline */
+  backdrop-filter: blur(14px) saturate(160%);
+  background: rgba(10, 13, 28, 0.45);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
 }
 
 .bhu-nav--booted {
