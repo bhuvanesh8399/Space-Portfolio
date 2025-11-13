@@ -1,0 +1,338 @@
+.premium-stack {
+  position: relative;
+  width: min(340px, 100%);
+  aspect-ratio: 3 / 4;
+  max-height: 520px;
+  margin: 0 auto;
+  perspective: 1600px;
+  isolation: isolate;
+}
+
+.premium-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+  color: #f9fafb;
+  padding: 24px;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 65%);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  transition: all 0.55s cubic-bezier(0.25, 0.9, 0.25, 1.2);
+  overflow: hidden;
+}
+
+.premium-card-a {
+  transform: translateY(0) scale(1);
+  z-index: 3;
+}
+
+.premium-card-b {
+  transform: translateY(24px) scale(0.97);
+  opacity: 0.85;
+  filter: brightness(1.08);
+  z-index: 2;
+}
+
+.premium-card-c {
+  transform: translateY(46px) scale(0.94);
+  opacity: 0.62;
+  filter: brightness(0.9);
+  z-index: 1;
+}
+
+.premium-stack:not(.stack-flipped):hover .premium-card-a {
+  transform: translateY(-8px) scale(1.03);
+}
+
+.premium-stack:not(.stack-flipped):hover .premium-card-b {
+  transform: translateY(6px) scale(0.985);
+  opacity: 0.86;
+}
+
+.premium-stack:not(.stack-flipped):hover .premium-card-c {
+  transform: translateY(18px) scale(0.96);
+  opacity: 0.68;
+}
+
+.mounted .premium-card {
+  animation: stackFadeUp 0.6s ease forwards;
+}
+
+@keyframes stackFadeUp {
+  from {
+    transform: translateY(40px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.premium-card-a {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+}
+
+.premium-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  padding: 24px;
+  background: radial-gradient(circle at top, #4f46e5 0, #0b1120 55%, #020617 100%);
+  box-shadow: 0 20px 55px rgba(56, 189, 248, 0.45);
+  transform-style: preserve-3d;
+  --tiltX: 0deg;
+  --tiltY: 0deg;
+  --flip: 0deg;
+  transform: rotateX(var(--tiltX)) rotateY(calc(var(--tiltY) + var(--flip)));
+  transition: transform 0.7s cubic-bezier(0.25, 0.9, 0.25, 1.3);
+}
+
+.premium-card-a.is-flipped .premium-card-inner {
+  --flip: 180deg;
+}
+
+.premium-card-face {
+  position: absolute;
+  inset: 0;
+  padding: 24px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.premium-card-front {
+  transform: rotateY(0deg);
+}
+
+.premium-card-back {
+  transform: rotateY(180deg);
+}
+
+.stack-flipped .premium-card-b,
+.stack-flipped .premium-card-c {
+  opacity: 0.35;
+  filter: blur(1px);
+}
+
+.badge-rocket {
+  position: absolute;
+  top: -4rem;
+  right: -4rem;
+  opacity: 0;
+  transform: translate(40px, -40px) scale(0.7) rotate(18deg);
+  transition: all 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.badge-rocket img {
+  width: 82px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.85);
+}
+
+.badge-drop-in {
+  top: 14px;
+  right: 16px;
+  opacity: 1;
+  transform: translate(0, 0) scale(1) rotate(0deg);
+}
+
+.badge-no-anim {
+  top: 14px;
+  right: 16px;
+  opacity: 1;
+  transform: none;
+}
+
+.pill-label {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.8);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.premium-title {
+  margin-top: 60px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.premium-tagline {
+  margin-top: 10px;
+  font-size: 13px;
+  text-align: center;
+  opacity: 0.8;
+}
+
+.gold-medal-row {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.medal-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 30% 0%, #facc15 0, #f97316 45%, #92400e 100%);
+  box-shadow: 0 0 18px rgba(250, 204, 21, 0.6);
+  font-size: 16px;
+}
+
+.front-highlights {
+  margin-top: 18px;
+  padding-left: 18px;
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.hint-text {
+  margin-top: auto;
+  font-size: 11px;
+  opacity: 0.6;
+  text-align: center;
+}
+
+.sub-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.back-section {
+  margin-top: 14px;
+}
+
+.back-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.back-main {
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.back-list {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  opacity: 0.92;
+}
+
+.cert-list {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cert-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.cert-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cert-icon {
+  font-size: 20px;
+}
+
+.cert-text p {
+  font-size: 13px;
+  margin: 0;
+}
+
+.verify-link {
+  font-size: 11px;
+  color: #38bdf8;
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.verify-link:hover {
+  text-decoration: underline;
+}
+
+.download-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: rgba(15, 23, 42, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  text-decoration: none;
+  color: #e5e7eb;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.download-btn:hover {
+  transform: translateY(-1px) scale(1.05);
+  background: rgba(56, 189, 248, 0.18);
+}
+
+.badge-grid {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mini-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.88;
+}
+
+.mini-badge img {
+  width: 46px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.8);
+}
+
+.mini-badge span {
+  font-size: 13px;
+}
+
+@media (max-width: 420px) {
+  .premium-card {
+    padding: 18px;
+  }
+  .premium-card-face {
+    padding: 18px;
+  }
+  .premium-title {
+    font-size: 20px;
+    margin-top: 54px;
+  }
+}

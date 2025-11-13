@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "../styles/home-ultra.css";
 import "../styles/overrides.css";
-import OrbitDeck from "./OrbitDeck";
-
+import { SmoothPremiumCard } from "./PremiumDeck";
 const WHAT_I_DO = [
   { title: "Full‑Stack Java", blurb: "Spring Boot · REST · JPA · Auth · CI/CD" },
   { title: "React & TypeScript", blurb: "Vite · TS · Forms · State" },
@@ -20,7 +19,7 @@ export default function HomeUltra() {
 
   const WORDS = ["intelligent", "scalable", "secure", "realtime"] as const;
   const [wi, setWi] = useState(0);
-  // Orbit Deck data moved to src/data/orbitCards.ts and rendered via OrbitDeck component
+  // Hero effects and premium deck interactions handled in child components
   useEffect(() => {
     const t = setInterval(() => setWi((i) => (i + 1) % WORDS.length), 2600);
     return () => clearInterval(t);
@@ -313,10 +312,10 @@ export default function HomeUltra() {
           </ul>
         </div>
 
-        {/* Right column: premium two-card vertical deck */}
         <div className="home-ultra__right" aria-hidden={false}>
-          <OrbitDeck />
+          <SmoothPremiumCard />
         </div>
+
       </div>
     </section>
   );
